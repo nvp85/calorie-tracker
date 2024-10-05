@@ -79,3 +79,22 @@ nav {
     margin-top: 10px;
     background-color: orange;
 }
+
+@media (max-width: 768px) {
+nav {
+    height: 4rem;
+}
+
+.nav-links {
+    position: absolute;
+    top: 4rem;
+    left: 0rem;
+    background-color: rgb(254, 254, 254);
+    width: 100vw;
+    margin: 0px;
+    justify-content: space-around;
+    padding: 15px;
+    font-size: large;
+}
+
+}
