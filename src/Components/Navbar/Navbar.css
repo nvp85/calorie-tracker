@@ -1,0 +1,68 @@
+nav {
+    display: flex;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.nav-logo {
+    display: flex;
+}
+
+.nav-logo img {
+    position: absolute;
+    height: 40px;
+    z-index: 0;
+}
+
+.nav-logo > p {
+    margin-left: 20px;
+    font-weight: 700;
+    font-size:x-large;
+    z-index: 1;
+    padding: 0px;
+    margin: 10px;
+    margin-left: 19px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links > li {
+    margin-right: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.nav-buttons a {
+    margin-right: 20px;
+    margin-top: 0px;
+    text-decoration: none;
+    border: 1px solid;
+    padding: 8px;
+    border-radius: 20px;
+    border-color: darkorange;
+    color: black;
+    width: 80px;
+    display: inline-block;
+    text-align: center;
+}
+
+.nav-buttons a:hover {
+    transform: translate(1px, 1px);
+}
+
+.signup-btn {
+    margin-top: 10px;
+    background-color: orange;
+}

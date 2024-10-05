@@ -17,8 +17,8 @@ export default function Navbar({children}) {
                     <li><Link to={"/"}>Add food</Link></li>
                 </ul>
                 <div className="nav-buttons">
-                    <Link to={"/"} className="signup-btn">Sign Up</Link>
                     <Link to={"/"} className="login-btn">Login</Link>
+                    <Link to={"/"} className="signup-btn">Sign Up</Link>
                 </div>
             </nav>
             {children}
