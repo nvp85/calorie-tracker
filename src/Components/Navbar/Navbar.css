@@ -1,9 +1,22 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-image: radial-gradient(rgb(255, 235, 204) 0%, transparent 100%), url("background.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
 nav {
     display: flex;
     background-color: white;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    height: 80px;
+    align-self: stretch;
 }
 
 .nav-logo {

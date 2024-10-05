@@ -14,3 +14,7 @@ body {
   scrollbar-width: none;
 }
 
+#root {
+  height: 100vh;
+  background-color: orange;
+}
