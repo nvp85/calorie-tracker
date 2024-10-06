@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    min-height: 100vh;
     background-image: radial-gradient(rgb(255, 235, 204) 0%, transparent 100%), url("background.jpg");
     background-size: cover;
     background-position: center;
@@ -17,6 +17,10 @@ nav {
     padding: 20px;
     height: 80px;
     align-self: stretch;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    box-shadow: 2px 0px 3px gray;
 }
 
 .nav-logo {
