@@ -1,7 +1,9 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from "./Components/Navbar/Navbar"
-import LandingPage from "./Components/LandingPage/LandingPage"
+import Navbar from "./Components/Navbar/Navbar";
+import LandingPage from "./Components/LandingPage/LandingPage";
+import FoodSearch from './Components/FoodSearch/FoodSearch';
+
 
 function App() {
   return (
@@ -14,7 +16,7 @@ function App() {
           //<Route path='/Sign_Up' element={<Sign_Up/>}/>
           //<Route path='/profile' element={<Profile/>} />
           //<Route path='/journal' element={<Journal/>} />
-          //<Route path='/search' element={<FoodSearch/>} />
+          <Route path='/search' element={<FoodSearch/>} />
           //<Route path='/add_food' element={<NewFood/>} />
           }
         </Routes>

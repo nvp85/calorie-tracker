@@ -1,0 +1,72 @@
+.search-container {
+    background-color: white;
+    margin: 12rem 0 4rem;
+    padding: 5rem;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+.search-btn {
+    width: 8rem;
+    background-color: white;
+    border-radius: 0px 20px 20px 0px;
+    height: 3.6rem;
+    font-size: 1.6rem;
+    border: solid 1px darkorange;
+}
+
+.search-btn:hover {
+    background-color: orange;
+}
+
+.search-box { 
+    height: 3.6rem;
+    border-radius: 20px 0 0 20px;
+    border: solid 1px darkorange;
+    font-size: 1.6rem;
+    padding: 0.5rem;
+}
+
+.search-food-item {
+    border-bottom: 1px gray dotted;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.search-item-calories {
+    color: gray;
+}
+
+.add-icon {
+    background-color: white;
+    color: darkorange;
+    height: 3rem;
+    width: 3rem;
+    border: solid darkorange 0.1rem;
+    stroke-width: 0.1rem;
+    border-radius: 50%;
+    margin-left: 1rem;
+}
+
+.add-icon:hover {
+    background-color: darkorange;
+    color: white;
+}
+
+form {
+    margin: 3rem;
+}
+
+.message {
+    color: gray;
+}
+
+@media (max-width: 1200px) {
+.search-container {
+    width: fit-content;
+}
+}

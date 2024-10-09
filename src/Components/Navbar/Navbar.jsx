@@ -13,12 +13,12 @@ export default function Navbar({children}) {
                 </div>
                 <ul className="nav-links">
                     <li><Link to={"/"}>Journal</Link></li>
-                    <li><Link to={"/"}>Search food</Link></li>
+                    <li><Link to={"/search"}>Search food</Link></li>
                     <li><Link to={"/"}>Add food</Link></li>
                 </ul>
                 <div className="nav-buttons">
-                    <Link to={"/"} className="login-btn">Login</Link>
-                    <Link to={"/"} className="signup-btn">Sign Up</Link>
+                    <Link to={"/"} className="login-btn btn">Login</Link>
+                    <Link to={"/"} className="signup-btn orange btn">Sign Up</Link>
                 </div>
             </nav>
             {children}
