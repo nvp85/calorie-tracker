@@ -1,7 +1,6 @@
 .main-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     min-height: 100vh;
     background-image: radial-gradient(rgb(255, 235, 204) 0%, transparent 100%), url("background.webp");
@@ -14,8 +13,8 @@ nav {
     background-color: white;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    height: 80px;
+    padding: 1rem;
+    height: 8rem; 
     align-self: stretch;
     position: fixed;
     top: 0;
@@ -29,18 +28,18 @@ nav {
 
 .nav-logo img {
     position: absolute;
-    height: 40px;
+    height: 4rem;
     z-index: 0;
 }
 
 .nav-logo > p {
-    margin-left: 20px;
+    margin-left: 2rem;
     font-weight: 700;
-    font-size:x-large;
+    font-size: 2.4rem;
     z-index: 1;
     padding: 0px;
-    margin: 10px;
-    margin-left: 19px;
+    margin: 1rem;
+    margin-left: 2.1rem;
 }
 
 .nav-links {
@@ -49,7 +48,7 @@ nav {
 }
 
 .nav-links > li {
-    margin-right: 20px;
+    margin-right: 2rem;
 }
 
 .nav-links a {
@@ -62,43 +61,43 @@ nav {
 }
 
 .nav-buttons a {
-    margin-right: 20px;
     margin-top: 0px;
     text-decoration: none;
-    border: 1px solid;
-    padding: 8px;
-    border-radius: 20px;
-    border-color: darkorange;
     color: black;
-    width: 80px;
+    width: 8rem;
     display: inline-block;
     text-align: center;
 }
 
-.nav-buttons a:hover {
-    transform: translate(1px, 1px);
+.signup-btn {
+    margin-left: 2rem;
+    margin-right: 1rem;
 }
 
-.signup-btn {
-    margin-top: 10px;
-    background-color: orange;
+.nav-buttons {
+    margin-left: 4rem;
 }
 
 @media (max-width: 768px) {
 nav {
-    height: 4rem;
+    height: 6rem;
 }
 
 .nav-links {
     position: absolute;
-    top: 4rem;
+    top: 6rem;
     left: 0rem;
     background-color: rgb(254, 254, 254);
     width: 100vw;
     margin: 0px;
     justify-content: space-around;
-    padding: 15px;
+    padding: 1.5rem;
     font-size: large;
+}
+
+
+.nav-buttons {
+    margin-left: 0rem;
 }
 
 }

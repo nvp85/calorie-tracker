@@ -7,6 +7,7 @@ html, body {
   padding: 0;
   background-color: #FFF7ED;
   font-family: "Inter", sans-serif;
+  font-size: 62.5%;
 }
 
 body {
@@ -15,5 +16,33 @@ body {
 }
 
 #root {
+  background-color: rgb(255, 255, 255);
+}
+
+h1 {
+  font-size: 3.2rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+p, li, a, div {
+  font-size: 1.6rem;
+}
+
+.orange {
   background-color: orange;
+}
+
+.btn {
+  border: 1px solid;
+  padding: 0.8rem;
+  border-radius: 20px;
+  border-color: darkorange;
+  font-size: 1.6rem;
+}
+
+.btn:hover {
+  transform: translate(1px, 1px);
 }
