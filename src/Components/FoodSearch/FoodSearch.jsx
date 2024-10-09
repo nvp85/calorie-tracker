@@ -20,18 +20,22 @@ export default function FoodSearch() {
                     return res.json();
                 })
                 .then(data => {
-                    setMessage('');
-                    setSearchResults(data.foods.map(item => {
-                        return (
-                            <div className="search-food-item" key={item.id}>
-                                <div>
-                                    <p>{item.name}</p>
-                                    <p className="search-item-calories">Calories, per 100g: {item.calories}</p>
+                    if (data.foods.length === 0) {
+                        setMessage('Sorry, nothing was found.');
+                    } else {
+                        setMessage('');
+                        setSearchResults(data.foods.map(item => {
+                            return (
+                                <div className="search-food-item" key={item.id}>
+                                    <div>
+                                        <p>{item.name}</p>
+                                        <p className="search-item-calories">Calories, per 100g: {item.calories}</p>
+                                    </div>
+                                    <Link to={"/"} className="food-select-btn"><LuPlus className="add-icon"/></Link>
                                 </div>
-                                <Link to={"/"} className="food-select-btn"><LuPlus className="add-icon"/></Link>
-                            </div>
-                        );
-                    }));
+                            );
+                        }));
+                    }
                 });
         };
     };
@@ -45,7 +49,7 @@ export default function FoodSearch() {
             </form>
             {message && <p className="message">{message}</p>}
             <div className="search-results">
-                {searchResults.length ? searchResults : ""}
+                {searchResults.length>0 && searchResults}
             </div>
         </div>
     )
