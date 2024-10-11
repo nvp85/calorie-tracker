@@ -20,11 +20,11 @@ export function makeServer() {
 
         this.get("/food", (schema, request) => {
             let q = request.queryParams.query.trim().toLowerCase();
-            console.log(q);
             return schema.foods.where(food => food.name.toLowerCase().includes(q));
         });
-        this.get("api/food/:id", (schema, request) => {
-            return schema.food.find(request.params.id);
+        this.get("/food/:id", (schema, request) => {
+            console.log(request);
+            return schema.foods.find(request.params.id);
         });
     },
   })
