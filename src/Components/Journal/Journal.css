@@ -1,0 +1,17 @@
+.food-records {
+    background-color: white;
+    margin: 12rem 0 4rem;
+    padding: 5rem;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+.record {
+    border-bottom: 1px gray dotted;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}

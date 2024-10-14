@@ -12,7 +12,7 @@ export default function Navbar({children}) {
                     <p>CalorieTracker</p>
                 </div>
                 <ul className="nav-links">
-                    <li><Link to={"/"}>Journal</Link></li>
+                    <li><Link to={"/journal"}>Journal</Link></li>
                     <li><Link to={"/search"}>Search food</Link></li>
                     <li><Link to={"/"}>Add food</Link></li>
                 </ul>
