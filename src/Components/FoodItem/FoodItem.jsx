@@ -10,7 +10,7 @@ export default function FoodItem() {
     useEffect(() => {
         fetch(`/api/food/${params.id}`)
             .then(res => res.json())
-            .then(data => setItem(data.food))
+            .then(data => setItem(data))
     }, [params.id]);
 
     return (

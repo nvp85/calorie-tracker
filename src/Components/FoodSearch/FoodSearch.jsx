@@ -20,11 +20,11 @@ export default function FoodSearch() {
                     return res.json();
                 })
                 .then(data => {
-                    if (data.foods.length === 0) {
+                    if (data.length === 0) {
                         setMessage('Sorry, nothing was found.');
                     } else {
                         setMessage('');
-                        setSearchResults(data.foods.map(item => {
+                        setSearchResults(data.map(item => {
                             return (
                                 <div className="search-food-item" key={item.id}>
                                     <div>
