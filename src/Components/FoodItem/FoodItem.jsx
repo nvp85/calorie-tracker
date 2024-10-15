@@ -14,7 +14,7 @@ export default function FoodItem() {
     }, [params.id]);
 
     return (
-        <div className="food-item-container">
+        <div className="white-container">
             { item ? 
             <div>
             <h2>Log the food</h2>

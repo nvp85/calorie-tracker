@@ -27,7 +27,7 @@ export default function Journal() {
         });
     }, [date]);
     return (
-        <div className="food-records">
+        <div className="white-container">
             <h2>You have eaten today:</h2>
             {records}
         </div>

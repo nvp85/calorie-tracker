@@ -41,7 +41,7 @@ export default function FoodSearch() {
     };
 
     return (
-        <div className="search-container">
+        <div className="white-container">
             <h2>Search a food item by name</h2>
             <form onSubmit={search}>
                 <input type="text" className="search-box" name="query" value={query} onChange={(e)=>setQuery(e.target.value)}/>

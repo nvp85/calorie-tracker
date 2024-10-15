@@ -46,3 +46,18 @@ p, li, a, div {
 .btn:hover {
   transform: translate(1px, 1px);
 }
+
+.white-container {
+  background-color: white;
+  margin: 8rem 0 0rem;
+  padding: 5rem;
+  width: 50%;
+  text-align: center;
+  flex-grow: 1;
+}
+
+@media (max-width: 1200px) {
+.white-container {
+    width: fit-content;
+}
+}
