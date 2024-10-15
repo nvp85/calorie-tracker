@@ -1,11 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import './Navbar.css'
+import './Navbar.css';
 
 
-export default function Navbar({children}) {
+export default function Navbar() {
     return (
-        <div className="main-container">
             <nav>
                 <div className="nav-logo">
                     <img src="/logo.png" />
@@ -21,7 +20,5 @@ export default function Navbar({children}) {
                     <Link to={"/"} className="signup-btn orange btn">Sign Up</Link>
                 </div>
             </nav>
-            {children}
-        </div>
     )
 }

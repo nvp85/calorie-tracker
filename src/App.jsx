@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './Components/Layout/Layout';
 import Navbar from "./Components/Navbar/Navbar";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import FoodSearch from './Components/FoodSearch/FoodSearch';
@@ -10,8 +11,8 @@ import Journal from './Components/Journal/Journal';
 function App() {
   return (
     <BrowserRouter>
-      <Navbar>
-        <Routes>
+      <Routes>
+        <Route element={<Layout />}>
           <Route path="/" element={<LandingPage/>} />
           <Route path='/search' element={<FoodSearch/>} />
           <Route path='/food/:id' element={<FoodItem/>} />
@@ -23,8 +24,8 @@ function App() {
           //
           //<Route path='/add_food' element={<NewFood/>} />
           }
-        </Routes>
-      </Navbar>
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 };

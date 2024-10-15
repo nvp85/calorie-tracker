@@ -1,0 +1,9 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-image: radial-gradient(rgb(255, 235, 204) 0%, transparent 100%), url("background.webp");
+    background-size: cover;
+    background-position: center;
+}
