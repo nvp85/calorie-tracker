@@ -52,8 +52,8 @@ export function makeServer() {
 
         seeds(server) {
             //users
-            server.create("user", {id:"1", username: "demoUser", password: "123", budget: "2000"});
-            server.create("user", {id:"2", username: "demoUser2", password: "456", budget: "2000"});
+            server.create("user", {id:"1", username: "demoUser", email: "user1@example.com", password: "123", budget: "2000"});
+            server.create("user", {id:"2", username: "demoUser2", email: "user2@example.com", password: "456", budget: "2000"});
 
             //food public
             server.create("food", {id: "1", name: "Chicken egg", calories: "157.0", proteins: "12.7", fats: "10.9", carbs: "0.7", serving: "55g", addedById: null});
