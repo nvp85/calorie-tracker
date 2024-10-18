@@ -20,7 +20,7 @@ export default function FoodItem() {
 
     function isValid(amount) {
         const pattern = /^\d+(\.\d+)?$/;
-        return pattern.test(amount);
+        return typeof(amount) === "string" && pattern.test(amount) && (amount.length > 0);
     };
 
     function logFood () {
@@ -55,9 +55,9 @@ export default function FoodItem() {
             <p>{item.name}</p>
             <p>Calories, per 100g: {item.calories}, Serving size: {item.serving}</p>
             <p>Proteins: {item.proteins} g | Fats: {item.fats} g | Carbs: {item.carbs} g</p>
-            <label htmlFor="amount">Enter amount</label>
-            <input type="text" id="amount" name="amount" onChange={(e) => setAmount(e.target.value)}/>
-            <button onClick={logFood}>Log</button>
+            <label htmlFor="amount">Amount:</label>
+            <input type="text" id="amount" name="amount" onChange={(e) => setAmount(e.target.value)} className="input-box" placeholder="Enter weight in grams"/>
+            <button className="input-btn" onClick={logFood}>Save</button>
             </div>
             : <p>Loading...</p>
             }

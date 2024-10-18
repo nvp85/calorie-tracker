@@ -18,7 +18,7 @@ export default function Journal() {
         <div className="white-container">
             <h2>You have eaten today:</h2>
             <div className="summary"> 
-                <p>Calories, total: {total.calories} Ccal</p>
+                <p>Calories, total: {total.calories} Kcal</p>
                 <p>Proteins: {total.proteins} g | Fats: {total.fats} g | Carbs: {total.carbs} g</p>
             </div>
             {records.map(record => {
@@ -26,7 +26,7 @@ export default function Journal() {
                     <div className="record" key={record.id}>
                         <div>
                         <p>{record.food_name}</p>
-                        <p>Calories: {record.calories_eaten} | Amount: {record.amount} g.</p>
+                        <p className="gray-text">Calories: {record.calories_eaten} | Amount: {record.amount} g.</p>
                         </div>
                         <Link to={`/food/${record.food_id}`} className="food-select-btn"><LuPlus className="add-icon"/></Link>
                     </div>
