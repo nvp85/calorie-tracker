@@ -101,6 +101,9 @@ export function makeServer() {
                 console.log(attrs);
                 return schema.foodRecords.create(attrs);
             });
+            this.del("/users/:userId/food_records/:id", (schema, request) => {
+                return schema.foodRecords.find(request.params.id).destroy();
+            });
         },
     })
     return server;

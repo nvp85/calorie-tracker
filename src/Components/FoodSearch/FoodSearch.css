@@ -7,7 +7,7 @@
     text-align: left;
 }
 
-.add-icon {
+.circle-icon {
     background-color: white;
     color: darkorange;
     height: 3rem;
@@ -18,7 +18,7 @@
     margin-left: 1rem;
 }
 
-.add-icon:hover {
+.circle-icon:hover {
     background-color: darkorange;
     color: white;
 }
