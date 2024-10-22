@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import "./Journal.css";
 import { LuPlus, LuMinus } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import Popup from "../PopUp/PopUp";
 
 
 export default function Journal() {
     const [records, setRecords] = useOutletContext();
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [curRecord, setCurRecord] = useState(null);
     let total = {calories: 0, proteins: 0, fats: 0, carbs: 0};
     for (const record of records) {
         total.calories += record.calories_eaten;
@@ -23,6 +26,8 @@ export default function Journal() {
                 alert("Error: fail to delete the record.");
             } else {
                 setRecords(old => old.filter(item => item.id !== id));
+                setIsPopupOpen(false);
+                setCurRecord(null);
             }
         })
     };
@@ -42,12 +47,17 @@ export default function Journal() {
                             <p className="gray-text">Calories: {record.calories_eaten} | Amount: {record.amount} g.</p>
                         </div>
                         <div>
-                            <button className="del-btn" onClick={(e) => deleteRecord(e, record.id)}><LuMinus className="circle-icon delete-icon"/></button>
+                            <button className="del-btn" onClick={() => {setCurRecord(record); setIsPopupOpen(true)}}><LuMinus className="circle-icon delete-icon"/></button>
                             <Link to={`/food/${record.food_id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>
                         </div>
                     </div>
                 )
             })}
+            {isPopupOpen && <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
+                <p>Do you want to delete this record?</p>
+                <p>{curRecord.food_name}, {curRecord.amount} g</p>
+                <button onClick={(e) => deleteRecord(e, curRecord.id)}>Delete</button>
+            </Popup>}
         </div>
     );
 };
