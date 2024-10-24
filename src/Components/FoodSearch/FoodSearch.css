@@ -7,21 +7,6 @@
     text-align: left;
 }
 
-.circle-icon {
-    background-color: white;
-    color: darkorange;
-    height: 3rem;
-    width: 3rem;
-    border: solid darkorange 0.1rem;
-    stroke-width: 0.1rem;
-    border-radius: 50%;
-    margin-left: 1rem;
-}
-
-.circle-icon:hover {
-    background-color: darkorange;
-    color: white;
-}
 
 form {
     margin: 3rem;

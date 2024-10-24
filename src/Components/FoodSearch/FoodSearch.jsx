@@ -31,7 +31,7 @@ export default function FoodSearch() {
                                         <p>{item.name}</p>
                                         <p className="gray-text">Calories, per 100g: {item.calories}</p>
                                     </div>
-                                    <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="add-icon"/></Link>
+                                    <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>
                                 </div>
                             );
                         }));

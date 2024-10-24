@@ -81,6 +81,21 @@ p, li, a, div {
   padding: 0.5rem;
 }
 
+.circle-icon {
+  background-color: white;
+  color: #ae4d06;
+  height: 2.5rem;
+  width: 2.5rem;
+  stroke-width: 0.2rem;
+  border-radius: 50%;
+  border: solid 2px #ae4d06;
+}
+
+.circle-icon:hover {
+  background-color: darkorange;
+  color: white;
+}
+
 @media (max-width: 1200px) {
 .white-container {
     width: fit-content;
