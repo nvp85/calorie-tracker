@@ -1,4 +1,4 @@
-# Calorie Tracker
+# Calorie Tracker (in progress)
 
 The goal is to eventually combine this frontend app with the "fit_app" backend. For the development stage, the backend is mocked with Miragejs.
 ## Description
