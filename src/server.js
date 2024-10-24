@@ -104,6 +104,10 @@ export function makeServer() {
             this.del("/users/:userId/food_records/:id", (schema, request) => {
                 return schema.foodRecords.find(request.params.id).destroy();
             });
+            this.patch("/users/:userId/food_records/:id", (schema, request) => {
+                let attrs = JSON.parse(request.requestBody);
+                return schema.foodRecords.find(request.params.id).update(attrs);
+            });
         },
     })
     return server;

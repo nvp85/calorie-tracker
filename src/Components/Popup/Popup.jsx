@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./Popup.css"
 
-export default function Popup({ children, isOpen, onClose }) {
+export default function Popup({ children, onClose }) {
   return (
       <div className="popup-overlay" onClick={onClose}>
         <div className="popup-content" onClick={e => e.stopPropagation()}>
