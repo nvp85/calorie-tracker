@@ -1,9 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import './Navbar.css';
 
 
 export default function Navbar() {
+    const activeStyle = {
+        textDecoration: "underline",
+        fontWeight: "bold",
+    };
     return (
             <nav>
                 <div className="nav-logo">
@@ -11,9 +15,9 @@ export default function Navbar() {
                     <p>CalorieTracker</p>
                 </div>
                 <ul className="nav-links">
-                    <li><Link to={"/journal"}>Journal</Link></li>
-                    <li><Link to={"/search"}>Search food</Link></li>
-                    <li><Link to={"/"}>Add food</Link></li>
+                    <li><NavLink to={"/journal"} style={({isActive}) => isActive ? activeStyle : null}>Journal</NavLink></li>
+                    <li><NavLink to={"/search"} style={({isActive}) => isActive ? activeStyle : null}>Search food</NavLink></li>
+                    <li><NavLink to={"/"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
                 </ul>
                 <div className="nav-buttons">
                     <Link to={"/"} className="login-btn btn">Login</Link>
