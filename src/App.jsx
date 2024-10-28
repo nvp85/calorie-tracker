@@ -6,6 +6,7 @@ import FoodSearch from './Components/FoodSearch/FoodSearch';
 import FoodItem from './Components/FoodItem/FoodItem';
 import Journal from './Components/Journal/Journal';
 import RecordsProvider from './Components/RecordsProvider/RecordsProvider';
+import NotFound from './Components/NotFound/NotFound';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path='/food/:id' element={<FoodItem/>} />
             <Route path='/journal' element={<Journal/>} />
           </Route>
+          <Route path='*' element={<NotFound/>}/>
           {
           // <Route path="/Login" element={<Login/>}/>
           //<Route path='/Sign_Up' element={<Sign_Up/>}/>
