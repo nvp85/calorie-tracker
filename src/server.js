@@ -1,4 +1,4 @@
-import { belongsTo, createServer, hasMany, Model, RestSerializer } from "miragejs";
+import { belongsTo, createServer, hasMany, Model, RestSerializer, Response } from "miragejs";
 
 
 const serializer = RestSerializer.extend({
@@ -84,6 +84,7 @@ export function makeServer() {
     // TODO: add brands and categories
         routes() {
             this.namespace = "api";
+            this.timing = 2000; // delay in server response
 
             this.get("/food", (schema, request) => {
                 let q = request.queryParams.query.trim().toLowerCase();
@@ -94,6 +95,7 @@ export function makeServer() {
                 return schema.foods.find(request.params.id);
             });
             this.get("/users/:id/food_records/:date", (schema, request) => {
+                //return new Response(400, {}, {error: "Error fetching data"}); 
                 return schema.foodRecords.where({userId: request.params.id, date: request.params.date}).sort((a,b) => b.id - a.id);
             });
             this.post("/users/:id/food_records", (schema, request) => {
@@ -102,6 +104,7 @@ export function makeServer() {
                 return schema.foodRecords.create(attrs);
             });
             this.del("/users/:userId/food_records/:id", (schema, request) => {
+                //return new Response(400, {}, {error: "Error fetching data"}); 
                 return schema.foodRecords.find(request.params.id).destroy();
             });
             this.patch("/users/:userId/food_records/:id", (schema, request) => {

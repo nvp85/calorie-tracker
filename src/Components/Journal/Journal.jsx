@@ -4,15 +4,21 @@ import "./Journal.css";
 import { LuPlus, LuMinus, LuPencil, LuTrash2 } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Popup from "../PopUp/PopUp";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 
 export default function Journal() {
-    const [records, setRecords] = useOutletContext();
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const contextData = useOutletContext();
+    const [records, setRecords] = contextData.records;
+    const [fetchErr, setFetchErr] = contextData.error;
+    const [isLoading, setIsLoading] = contextData.loading;
+    
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [curRecord, setCurRecord] = useState(null);
     const [newAmount, setNewAmount] = useState(null);
-    const [editErrMsg, setEditErrMsg] = useState("");
+    const [errMsg, setErrMsg] = useState(null);
+    const [isFetching,  setIsFetching] = useState(false);
 
     let total = {calories: 0, proteins: 0, fats: 0, carbs: 0};
     for (const record of records) {
@@ -22,18 +28,22 @@ export default function Journal() {
         total.carbs += record.carbs_eaten;
     };
 
-    function deleteRecord(e, id) {
+    async function deleteRecord(e, id) {
         const userId = 1;
-        fetch(`/api/users/${userId}/food_records/${id}`, {method: "DELETE",})
-        .then(res => {
-            if (!res.ok) {
-                alert("Error: failed to delete the record.");
-            } else {
-                setRecords(old => old.filter(item => item.id !== id));
-                setIsPopupOpen(false);
-                setCurRecord(null);
-            }
-        })
+        try {
+            setIsFetching(true);
+            const res = await fetch(`/api/users/${userId}/food_records/${id}`, {method: "DELETE"});
+            if (!res?.ok) {
+                throw new Error(`HTTP response code: ${res.status}`);
+            };
+            setRecords(old => old.filter(item => item.id !== id));
+            popupCleanUp();
+        } catch (err) {
+            console.error("Failed to delete the record.", err);
+            setErrMsg("Error: failed to delete the record. Please try again later.");
+        } finally {
+            setIsFetching(false);
+        }
     };
 
     function isValid(amount) {
@@ -45,34 +55,55 @@ export default function Journal() {
         const userId = 1;
 
         if (!isValid(amount)) {
-            setEditErrMsg("Please enter a number of grams");
+            setErrMsg("Please enter the weight in grams");
             return;
         }
 
         try {
+            setIsFetching(true);
             amount = Math.round(amount);
             const res = await fetch(`/api/users/${userId}/food_records/${id}`, {
                 method: "PATCH",
                 body: JSON.stringify({amount: amount})
             });
-            
+
             if (!res?.ok) {
                 throw new Error(`HTTP Response Code: ${res?.status}`);
-            }
+            };
+
             const json = await res.json();
-            popupCleanUp();
             setRecords(old => [json, ...old.filter(item => item.id !== id)]);
+            popupCleanUp();
         } catch (err) {
-            setEditErrMsg(`Failed to update the record. Error: ${err}`);
+            setErrMsg(`Failed to update the record. ${err}`);
+            console.error("Failed to update the record.", err);
+        } finally {
+            setIsFetching(false);
         }
     };
 
     function popupCleanUp() {
-        setIsPopupOpen(false);
+        setIsDeleteOpen(false);
         setIsEditOpen(false);
         setCurRecord(null);
         setNewAmount(null);
-        setEditErrMsg("");
+        setErrMsg(null);
+    };
+
+    if (isLoading) {
+        return (
+            <div className="white-container">
+                <h2 className="gray-text">Loading the records...</h2>
+            </div>
+        )
+    };
+
+    if (fetchErr) {
+        return (
+            <ErrorPage>
+                {fetchErr}
+            </ErrorPage>
+        )
     };
 
     return (
@@ -82,38 +113,42 @@ export default function Journal() {
                 <p>Calories, total: {total.calories} kcal</p>
                 <p>Proteins: {total.proteins} g | Fats: {total.fats} g | Carbs: {total.carbs} g</p>
             </div>
-            {records.map(record => {
-                return (
-                    <div className="record" key={record.id}>
-                        <div>
-                            <p>{record.food_name}</p>
-                            <p className="gray-text">
-                                Calories: {record.calories_eaten} | Amount: {record.amount} g. 
-                            </p>
+            {records.length > 0 
+                ? records.map(record => {
+                    return (
+                        <div className="record" key={record.id}>
+                            <div>
+                                <p>{record.food_name}</p>
+                                <p className="gray-text">
+                                    Calories: {record.calories_eaten} | Amount: {record.amount} g. 
+                                </p>
+                            </div>
+                            <div>
+                                <button className="record-btn" onClick={() => {setCurRecord(record); setIsEditOpen(true)}}><LuPencil className="record-icon"/></button>
+                                <button className="record-btn" onClick={() => {setCurRecord(record); setIsDeleteOpen(true)}}><LuTrash2 className="record-icon"/></button>
+                                <Link to={`/food/${record.food_id}`} className="food-select-link"><LuPlus className="circle-icon"/></Link>
+                            </div>
                         </div>
-                        <div>
-                            <button className="record-btn" onClick={() => {setCurRecord(record); setIsEditOpen(true)}}><LuPencil className="record-icon"/></button>
-                            <button className="record-btn" onClick={() => {setCurRecord(record); setIsPopupOpen(true)}}><LuTrash2 className="record-icon"/></button>
-                            <Link to={`/food/${record.food_id}`} className="food-select-link"><LuPlus className="circle-icon"/></Link>
-                        </div>
-                    </div>
-                )
-            })}
-            {isPopupOpen && 
+                    )
+                })
+                : <h3>No records found for today</h3>
+            }
+            {isDeleteOpen && 
                 <Popup onClose={popupCleanUp}>
-                    <p>Do you want to delete this record?</p>
+                    <h2>Do you want to delete this record?</h2>
                     <p>{curRecord.food_name}, {curRecord.amount} g</p>
-                    <button onClick={(e) => deleteRecord(e, curRecord.id)}>Delete</button>
+                    {errMsg && <p className="red-text">{errMsg}</p>}
+                    <button onClick={(e) => deleteRecord(e, curRecord.id)} disabled={isFetching}>Delete</button>
                 </Popup>
             }
             {isEditOpen &&
                 <Popup onClose={popupCleanUp}>
-                    <p>Edit the record</p>
+                    <h2>Edit the record</h2>
                     <p>{curRecord.food_name}, {curRecord.amount} g</p>
-                    <p>Enter new amount (weight in grams):</p>
+                    <p>Enter a new amount (weight in grams):</p>
                     <input name="newAmount" type="number" onChange={(e) => setNewAmount(e.target.value)}/>
-                    <button onClick={(e) => editRecord(e, curRecord.id, newAmount)}>Save</button>
-                    <p>{editErrMsg}</p>
+                    {errMsg && <p className="red-text">{errMsg}</p>}
+                    <button onClick={(e) => editRecord(e, curRecord.id, newAmount)} disabled={isFetching}>Save</button>
                 </Popup>
             }
         </div>

@@ -39,6 +39,10 @@ p, li, a, div {
   color: gray;
 }
 
+.red-text {
+  color: red;
+}
+
 .btn {
   border: 1px solid;
   padding: 0.8rem;
