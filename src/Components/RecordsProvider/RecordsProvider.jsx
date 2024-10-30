@@ -13,7 +13,7 @@ export default function RecordsProvider() {
         async function getData() {
             try {
                 setIsLoading(true);
-                const res = await fetch(`api/users/${id}/food_records/${date}`);
+                const res = await fetch(`/api/users/${id}/food_records/${date}`);
                 if (!res?.ok) {
                     throw new Error(`HTTP response code: ${res.status}`);
                 }

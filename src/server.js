@@ -99,6 +99,7 @@ export function makeServer() {
                 return schema.foodRecords.where({userId: request.params.id, date: request.params.date}).sort((a,b) => b.id - a.id);
             });
             this.post("/users/:id/food_records", (schema, request) => {
+                return new Response(400, {}, {error: "Error fetching data"}); 
                 let attrs = JSON.parse(request.requestBody);
                 console.log(attrs);
                 return schema.foodRecords.create(attrs);
