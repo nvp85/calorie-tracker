@@ -88,6 +88,7 @@ export function makeServer() {
 
             this.get("/food", (schema, request) => {
                 let q = request.queryParams.query.trim().toLowerCase();
+                //return new Response(400, {}, {error: "Error fetching data"}); 
                 return schema.foods.where(food => food.name.toLowerCase().includes(q));
             });
             this.get("/food/:id", (schema, request) => {

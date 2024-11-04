@@ -9,35 +9,40 @@ export default function FoodSearch() {
     const [searchResults, setSearchResults] = useState([]);
     const [message, setMessage] = useState('');
 
-    function search(e) {
+    async function search(e) {
         e.preventDefault();
         if (query === '') {
             setMessage("Enter a food's name, please. For example, banana.");
-        } else {
-            setMessage("Searching...");
-            fetch(`api/food?query=${encodeURIComponent(query)}`)
-                .then(res => {
-                    return res.json();
-                })
-                .then(data => {
-                    if (data.length === 0) {
-                        setMessage('Sorry, nothing was found.');
-                    } else {
-                        setMessage('');
-                        setSearchResults(data.map(item => {
-                            return (
-                                <div className="search-food-item" key={item.id}>
-                                    <div>
-                                        <p>{item.name}</p>
-                                        <p className="gray-text">Calories, per 100g: {item.calories}</p>
-                                    </div>
-                                    <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>
-                                </div>
-                            );
-                        }));
-                    }
-                });
-        };
+            return;
+        }
+        setSearchResults([]);
+        setMessage("Searching...");
+        try {
+            const res = await fetch(`api/food?query=${encodeURIComponent(query)}`);
+            if (!res?.ok) {
+                throw new Error(`HTTP response code: ${res.status}`);
+            }
+            const data = await res.json();
+            if (data.length === 0) {
+                setMessage('Sorry, nothing was found.');
+            } else {
+                setMessage('');
+                setSearchResults(data.map(item => {
+                    return (
+                        <div className="search-food-item" key={item.id}>
+                            <div>
+                                <p>{item.name}</p>
+                                <p className="gray-text">Calories, per 100g: {item.calories}</p>
+                            </div>
+                            <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>
+                        </div>
+                    )
+                }));
+            }
+        } catch (err) {
+            console.error('Fail to fetch data.', err);
+            setMessage('Failed to perform the search. Please try again.');
+        }
     };
 
     return (
