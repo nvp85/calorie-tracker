@@ -20,8 +20,8 @@ export default function Navbar() {
                     <li><NavLink to={"/"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
                 </ul>
                 <div className="nav-buttons">
-                    <Link to={"/"} className="login-btn btn">Login</Link>
-                    <Link to={"/"} className="signup-btn orange btn">Sign Up</Link>
+                    <Link to={"/login"} className="login-btn btn">Login</Link>
+                    <Link to={"/signup"} className="signup-btn orange btn">Sign Up</Link>
                 </div>
             </nav>
     )
