@@ -86,6 +86,19 @@ export function makeServer() {
             this.namespace = "api";
             this.timing = 2000; // delay in server response
 
+            this.post('/auth/login', (schema, request) => {
+                const attr = JSON.parse(request.requestBody);
+                const user = schema.users.findBy({email: attr.email});
+                if (user && attr.password === user.password) {
+                    return new Response(200, {}, {
+                        authtoken: "a_mocked_jwt_token",
+                        user: user
+                    });
+                } else {
+                    return new Response(401, {}, {errors: ['Invalid email or password.']});
+                }
+            });
+
             this.get("/food", (schema, request) => {
                 let q = request.queryParams.query.trim().toLowerCase();
                 //return new Response(400, {}, {error: "Error fetching data"}); 
