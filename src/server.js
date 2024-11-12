@@ -84,7 +84,7 @@ export function makeServer() {
     // TODO: add brands and categories
         routes() {
             this.namespace = "api";
-            this.timing = 2000; // delay in server response
+            //this.timing = 2000; // delay in server response
 
             this.post('/auth/login', (schema, request) => {
                 const attr = JSON.parse(request.requestBody);
@@ -92,7 +92,12 @@ export function makeServer() {
                 if (user && attr.password === user.password) {
                     return new Response(200, {}, {
                         authtoken: "a_mocked_jwt_token",
-                        user: user
+                        user: {
+                            id: user.id,
+                            name: user.username,
+                            email: user.email,
+                            budget: user.budget
+                        }
                     });
                 } else {
                     return new Response(401, {}, {errors: ['Invalid email or password.']});

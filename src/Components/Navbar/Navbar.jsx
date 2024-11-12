@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import './Navbar.css';
+import { useAuth } from "../../hooks/AuthProvider";
 
 
 export default function Navbar() {
     const activeStyle = {
         textDecoration: "underline",
         fontWeight: "bold",
+    };
+
+    const auth = useAuth();
+    const username = auth.isLoggedIn ? auth.user.name : null;
+
+    function handleLogout() {
+        auth.logout();
     };
     return (
             <nav>
@@ -19,10 +27,18 @@ export default function Navbar() {
                     <li><NavLink to={"/search"} style={({isActive}) => isActive ? activeStyle : null}>Search food</NavLink></li>
                     <li><NavLink to={"/"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
                 </ul>
-                <div className="nav-buttons">
-                    <Link to={"/login"} className="login-btn btn">Login</Link>
-                    <Link to={"/signup"} className="signup-btn orange btn">Sign Up</Link>
-                </div>
+                { auth.isLoggedIn 
+                    ?
+                    <div className="nav-buttons">
+                        <Link to="/profile" >{username}</Link>
+                        <button className="login-btn orange btn" onClick={handleLogout}>Logout</button>
+                    </div>
+                    :
+                    <div className="nav-buttons">
+                        <Link to={"/login"} className="login-btn btn">Login</Link>
+                        <Link to={"/signup"} className="signup-btn orange btn">Sign Up</Link>
+                    </div>
+                }
             </nav>
     )
 }

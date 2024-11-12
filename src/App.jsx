@@ -9,31 +9,34 @@ import RecordsProvider from './Components/RecordsProvider/RecordsProvider';
 import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
+import AuthProvider from './hooks/AuthProvider';
 
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<LandingPage/>} />
-          <Route element={<RecordsProvider />}>
-            <Route path='/search' element={<FoodSearch/>} />
-            <Route path='/food/:id' element={<FoodItem/>} />
-            <Route path='/journal' element={<Journal/>} />
+      <AuthProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<LandingPage/>} />
+            <Route element={<RecordsProvider />}>
+              <Route path='/search' element={<FoodSearch/>} />
+              <Route path='/food/:id' element={<FoodItem/>} />
+              <Route path='/journal' element={<Journal/>} />
+            </Route>
+            <Route path='*' element={<NotFound/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path='/signup' element={<Signup/>}/>
+            {
+            // 
+            //
+            //<Route path='/profile' element={<Profile/>} />
+            //
+            //<Route path='/add_food' element={<NewFood/>} />
+            }
           </Route>
-          <Route path='*' element={<NotFound/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path='/signup' element={<Signup/>}/>
-          {
-          // 
-          //
-          //<Route path='/profile' element={<Profile/>} />
-          //
-          //<Route path='/add_food' element={<NewFood/>} />
-          }
-        </Route>
-      </Routes>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 };

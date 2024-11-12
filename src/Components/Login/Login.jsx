@@ -1,48 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../hooks/AuthProvider";
 
 export default function Login() {
-    const [formData, setFormData] = useState({email: "", password: ""});
+    const [formData, setFormData] = useState({email: "user1@example.com", password: "123"});
+    const auth = useAuth();
+
     const [err, setErr] = useState();
 
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (sessionStorage.getItem("auth-token")) {
-            navigate("/");
-        }
-    }, []);
-
-    async function login(e) {
+    async function handleLogin(e) {
         e.preventDefault();
         if (!new RegExp(/\S+@\S+\.\S+/).test(formData.email)) {
             setErr("Please enter a valid email address.");
             return;
-        }
+        };
+        if (!formData.email || !formData.password) {
+            setErr("Please enter a valid email address and password.");
+            return;
+        };
         try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                }),
-            });
-            const data = await res.json();
-            if (!res?.ok) {
-                if (data.errors)  {
-                    throw new Error(data.errors.reduce((msg, err) => msg + "\n" + err));
-                } else {
-                    throw new Error(`HTTP response code: ${res.status}`);
-                }
-            };
-            if (data.authtoken) {
-                sessionStorage.setItem('auth-token', data.authtoken);
-                navigate('/');
-                window.location.reload();
-            }
+            auth.login(formData.email, formData.password);
         } catch (err) {
             console.error("Fail to login.", err);
             setErr(`Fail to log in. ${err}`);
@@ -58,7 +35,7 @@ export default function Login() {
         <div className="white-container">
             <h1>Sign In</h1>
             {err ? <p className="red-text">{err}</p> : null}
-            <form onSubmit={login} className="login-form">
+            <form onSubmit={handleLogin} className="login-form">
                 <input
                     name="email"
                     onChange={handleChange}
@@ -73,6 +50,7 @@ export default function Login() {
                     type="password"
                     placeholder="Password"
                     value={formData.password}
+                    required
                 />
                 <button>Log in</button>
             </form>
