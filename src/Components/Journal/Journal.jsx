@@ -5,6 +5,7 @@ import { LuPlus, LuMinus, LuPencil, LuTrash2 } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Popup from "../PopUp/PopUp";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import { useAuth } from "../../hooks/AuthProvider";
 
 
 export default function Journal() {

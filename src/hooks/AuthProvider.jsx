@@ -10,12 +10,33 @@ export default function AuthProvider({ children }) {
     const navigate = useNavigate();
     
     useEffect(() => {
-        console.log("rerendered")
-        //const storetoken = sessionStorage.getItem('auth-token');
-        //if (storetoken) {
-            //setIsLoggedIn(false); 
-            // fetch the user here
-        //};
+        async function fetchUser() {
+            const storetoken = sessionStorage.getItem('auth-token'); 
+            if (storetoken) {
+                try {
+                    const res = await fetch('/api/auth/user', {
+                        method: 'GET',
+                        headers: {
+                            'authentication': storetoken,
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                    const data = await res.json();
+                    if (res?.ok) {
+                        setUser(data);
+                        setIsLoggedIn(true);
+                    } else {
+                        throw new Error('Failed to fetch user data');
+                    }
+                } catch (err) {
+                    console.error("Error fetching user details:", err);
+                    alert('Failed to fetch user data');
+                    logout();
+                }
+
+            }
+        };
+        fetchUser();
     }, []);
 
     async function login(email, password) {

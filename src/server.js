@@ -84,7 +84,7 @@ export function makeServer() {
     // TODO: add brands and categories
         routes() {
             this.namespace = "api";
-            //this.timing = 2000; // delay in server response
+            this.timing = 2000; // delay in server response
 
             this.post('/auth/login', (schema, request) => {
                 const attr = JSON.parse(request.requestBody);
