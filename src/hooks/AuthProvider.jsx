@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null); // user object {id, name, email, budget, token}
+    let isLoggedIn = user ? true : false;
 
     const navigate = useNavigate();
     
     useEffect(() => {
+        console.log('mounted');
         async function fetchUser() {
             const storetoken = sessionStorage.getItem('auth-token'); 
             if (storetoken) {
@@ -23,13 +24,13 @@ export default function AuthProvider({ children }) {
                     });
                     const data = await res.json();
                     if (res?.ok) {
-                        setUser(data);
-                        setIsLoggedIn(true);
+                        console.log(data);
+                        setUser({...data, token: storetoken});
                     } else {
                         throw new Error('Failed to fetch user data');
                     }
                 } catch (err) {
-                    console.error("Error fetching user details:", err);
+                    console.error(err);
                     alert('Failed to fetch user data');
                     logout();
                 }
@@ -60,7 +61,6 @@ export default function AuthProvider({ children }) {
         };
         if (data.authtoken) {
             sessionStorage.setItem('auth-token', data.authtoken);
-            setIsLoggedIn(true);
             setUser(data.user);
             navigate('/journal');
         }
@@ -68,7 +68,6 @@ export default function AuthProvider({ children }) {
 
     function logout() {
         setUser(null);
-        setIsLoggedIn(false);
         sessionStorage.removeItem('auth-token');
         navigate('/login');
     };

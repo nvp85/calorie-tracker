@@ -1,4 +1,6 @@
 import { belongsTo, createServer, hasMany, Model, RestSerializer, Response } from "miragejs";
+import sign from "jwt-encode";
+import { jwtDecode } from "jwt-decode";
 
 
 const serializer = RestSerializer.extend({
@@ -90,8 +92,12 @@ export function makeServer() {
                 const attr = JSON.parse(request.requestBody);
                 const user = schema.users.findBy({email: attr.email});
                 if (user && attr.password === user.password) {
+                    const token = sign({
+                        exp: Math.floor(Date.now()/1000) + 60*60,
+                        id: user.id
+                    }, 'app-secret'); //replace the app-secret with an actual secret; default alg is HMAC SHA256 
                     return new Response(200, {}, {
-                        authtoken: "a_mocked_jwt_token",
+                        authtoken: token,
                         user: {
                             id: user.id,
                             name: user.username,
@@ -101,6 +107,25 @@ export function makeServer() {
                     });
                 } else {
                     return new Response(401, {}, {errors: ['Invalid email or password.']});
+                }
+            });
+
+            this.get('/auth/user', (schema,request) => {
+                console.log(request.requestHeaders);
+                const token = request.requestHeaders.authentication;
+                try {
+                    const decoded = jwtDecode(token, 'app-secret');
+                    console.log(decoded);
+                    const user = schema.users.find(decoded.id);
+                    return new Response(200, {}, {
+                        id: user.id,
+                        name: user.username,
+                        email: user.email,
+                        budget: user.budget
+                    });
+                } catch (err) {
+                    console.error("Failed to verify the token.", err);
+                    return new Response(401, {}, {errors: ['Authentication failed.']});
                 }
             });
 
