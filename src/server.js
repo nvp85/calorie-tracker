@@ -10,6 +10,16 @@ const serializer = RestSerializer.extend({
 });
 
 
+function verifyToken(token, schema) {
+    const decoded = jwtDecode(token, 'app-secret');
+    const user = schema.users.find(decoded.id);
+    if (!user || decoded.exp < Math.floor(Date.now()/1000)) {
+        throw new Error('Inavalid credentials.');
+    };
+    return user;
+};
+
+
 export function makeServer() {
     const cur_date = new Date().toJSON().slice(0,10);
     let server = createServer({
@@ -109,14 +119,12 @@ export function makeServer() {
                     return new Response(401, {}, {errors: ['Invalid email or password.']});
                 }
             });
-
-            this.get('/auth/user', (schema,request) => {
-                console.log(request.requestHeaders);
+            // return current users details if the token is valid
+            this.get('/auth/user', (schema, request) => {
                 const token = request.requestHeaders.authentication;
+                let user;
                 try {
-                    const decoded = jwtDecode(token, 'app-secret');
-                    console.log(decoded);
-                    const user = schema.users.find(decoded.id);
+                    user = verifyToken(token, schema);
                     return new Response(200, {}, {
                         id: user.id,
                         name: user.username,
@@ -124,37 +132,97 @@ export function makeServer() {
                         budget: user.budget
                     });
                 } catch (err) {
-                    console.error("Failed to verify the token.", err);
-                    return new Response(401, {}, {errors: ['Authentication failed.']});
+                    console.error(err);
+                    return new Response(401, {}, {errors: ['Invalid credentials.']});
                 }
             });
-
-            this.get("/food", (schema, request) => {
+            // should return public food and current user's food if the user is logged in
+            this.get("/food", (schema, request) => { 
                 let q = request.queryParams.query.trim().toLowerCase();
+                let user = null;
                 //return new Response(400, {}, {error: "Error fetching data"}); 
-                return schema.foods.where(food => food.name.toLowerCase().includes(q));
+                if (request.requestHeaders.authentication) {
+                    try {
+                        const token = request.requestHeaders.authentication;
+                        user = verifyToken(token, schema);
+                    } catch (err) {
+                        console.error(err);
+                        return new Response(401, {}, {errors: ['Inavalid credentials.']})
+                    };
+                }
+                return schema.foods.where(food => ((food.addedBy === null || (user && food.addedBy == user.id)) && food.name.toLowerCase().includes(q)));
             });
+            // returns food details if it's public or belongs to the curr user
             this.get("/food/:id", (schema, request) => {
-                console.log(request);
-                return schema.foods.find(request.params.id);
+                //console.log(request);
+                const food = schema.foods.find(request.params.id); 
+                if (request.requestHeaders.authentication && food.addedById) {
+                    let user;
+                    try {
+                        const token = request.requestHeaders.authentication;
+                        user = verifyToken(token, schema);
+                    } catch (err) {
+                        console.error(err);
+                        return new Response(401, {}, {errors: ['Inavalid credentials.']})
+                    };
+                    if (food.addedById !== user.id) {
+                        return new Response(403, {}, {errors: ['Access denied.']})
+                    };
+                }
+                return food;
             });
-            this.get("/users/:id/food_records/:date", (schema, request) => {
+            // returns current user's records.
+            this.get("/food_records/:date", (schema, request) => {
+                //return new Response(400, {}, {error: "Error fetching data"});
+                let user;
+                try {
+                    const token = request.requestHeaders.authentication;
+                    user = verifyToken(token, schema);
+                } catch (err) {
+                    console.error(err);
+                    return new Response(401, {}, {errors: ['Inavalid credentials.']})
+                };
+                return schema.foodRecords.where({userId: user.id, date: request.params.date}).sort((a,b) => b.id - a.id);
+            });
+            // adds a current user's record to the db
+            this.post("/food_records", (schema, request) => {
                 //return new Response(400, {}, {error: "Error fetching data"}); 
-                return schema.foodRecords.where({userId: request.params.id, date: request.params.date}).sort((a,b) => b.id - a.id);
+                const attrs = JSON.parse(request.requestBody);
+                let user;
+                try {
+                    const token = request.requestHeaders.authentication;
+                    user = verifyToken(token, schema);
+                } catch (err) {
+                    console.error(err);
+                    return new Response(401, {}, {errors: ['Inavalid credentials.']})
+                };
+                return schema.foodRecords.create({...attrs, userId: user.id});
             });
-            this.post("/users/:id/food_records", (schema, request) => {
-                return new Response(400, {}, {error: "Error fetching data"}); 
-                let attrs = JSON.parse(request.requestBody);
-                console.log(attrs);
-                return schema.foodRecords.create(attrs);
-            });
-            this.del("/users/:userId/food_records/:id", (schema, request) => {
+            // delete current user's record
+            this.del("/food_records/:id", (schema, request) => {
                 //return new Response(400, {}, {error: "Error fetching data"}); 
-                return schema.foodRecords.find(request.params.id).destroy();
+                let user;
+                try {
+                    const token = request.requestHeaders.authentication;
+                    user = verifyToken(token, schema);
+                } catch (err) {
+                    console.error(err);
+                    return new Response(401, {}, {errors: ['Inavalid credentials.']})
+                };
+                return schema.foodRecords.findBy({id: request.params.id, userId: user.id}).destroy();
             });
-            this.patch("/users/:userId/food_records/:id", (schema, request) => {
-                let attrs = JSON.parse(request.requestBody);
-                return schema.foodRecords.find(request.params.id).update(attrs);
+            // edit current user's record
+            this.patch("/food_records/:id", (schema, request) => {
+                const attrs = JSON.parse(request.requestBody);
+                let user;
+                try {
+                    const token = request.requestHeaders.authentication;
+                    user = verifyToken(token, schema);
+                } catch (err) {
+                    console.error(err);
+                    return new Response(401, {}, {errors: ['Inavalid credentials.']})
+                };
+                return schema.foodRecords.findBy({id: request.params.id, userId: user.id}).update(attrs);
             });
         },
     })
