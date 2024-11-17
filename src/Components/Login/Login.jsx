@@ -7,7 +7,7 @@ export default function Login() {
     const auth = useAuth();
 
     const [err, setErr] = useState();
-
+    
     async function handleLogin(e) {
         e.preventDefault();
         if (!new RegExp(/\S+@\S+\.\S+/).test(formData.email)) {
@@ -34,6 +34,7 @@ export default function Login() {
     return (
         <div className="white-container">
             <h1>Sign In</h1>
+            {auth.err ? <p className="red-text">{auth.err}</p> : null}
             {err ? <p className="red-text">{err}</p> : null}
             <form onSubmit={handleLogin} className="login-form">
                 <input

@@ -13,6 +13,7 @@ export default function Journal() {
     const [records, setRecords] = contextData.records;
     const [fetchErr, setFetchErr] = contextData.error;
     const [isLoading, setIsLoading] = contextData.loading;
+    const auth = useAuth();
     
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -30,10 +31,14 @@ export default function Journal() {
     };
 
     async function deleteRecord(e, id) {
-        const userId = 1;
         try {
             setIsFetching(true);
-            const res = await fetch(`/api/users/${userId}/food_records/${id}`, {method: "DELETE"});
+            const res = await fetch(`/api/food_records/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "authentication": auth.user.token
+                },
+            });
             if (!res?.ok) {
                 throw new Error(`HTTP response code: ${res.status}`);
             };
@@ -53,7 +58,6 @@ export default function Journal() {
     };
 
     async function editRecord(e, id, amount) {
-        const userId = 1;
 
         if (!isValid(amount)) {
             setErrMsg("Please enter the weight in grams");
@@ -63,8 +67,11 @@ export default function Journal() {
         try {
             setIsFetching(true);
             amount = Math.round(amount);
-            const res = await fetch(`/api/users/${userId}/food_records/${id}`, {
+            const res = await fetch(`/api/food_records/${id}`, {
                 method: "PATCH",
+                headers: {
+                    "authentication": auth.user.token
+                },
                 body: JSON.stringify({amount: amount})
             });
 
@@ -89,6 +96,14 @@ export default function Journal() {
         setCurRecord(null);
         setNewAmount(null);
         setErrMsg(null);
+    };
+
+    if (auth.loading) {
+        return (
+            <div className="white-container">
+                <h2 className="gray-text">Loading user's details...</h2>
+            </div>
+        )
     };
 
     if (isLoading) {

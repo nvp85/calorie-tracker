@@ -11,7 +11,7 @@ export default function Navbar() {
     };
 
     const auth = useAuth();
-    const username = auth.isLoggedIn ? auth.user.name : null;
+    const username = auth.user ? auth.user.name : null;
 
     function handleLogout() {
         auth.logout();
@@ -27,7 +27,7 @@ export default function Navbar() {
                     <li><NavLink to={"/search"} style={({isActive}) => isActive ? activeStyle : null}>Search food</NavLink></li>
                     <li><NavLink to={"/"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
                 </ul>
-                { auth.isLoggedIn 
+                { auth.user 
                     ?
                     <div className="nav-buttons">
                         <Link to="/profile" >{username}</Link>

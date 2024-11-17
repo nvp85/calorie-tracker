@@ -5,7 +5,8 @@ const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null); // user object {id, name, email, budget, token}
-    let isLoggedIn = user ? true : false;
+    const [loading, setLoding] = useState(false);
+    const [err, setErr] = useState(""); 
 
     const navigate = useNavigate();
     
@@ -14,6 +15,7 @@ export default function AuthProvider({ children }) {
         async function fetchUser() {
             const storetoken = sessionStorage.getItem('auth-token'); 
             if (storetoken) {
+                setLoding(true);
                 try {
                     const res = await fetch('/api/auth/user', {
                         method: 'GET',
@@ -27,14 +29,19 @@ export default function AuthProvider({ children }) {
                         console.log(data);
                         setUser({...data, token: storetoken});
                     } else {
-                        throw new Error('Failed to fetch user data');
+                        if (data.errors) {
+                            throw new Error(`Failed to fetch user data. ${data.errors.reduce((errors, err) => errors + "\n" + err)}`);
+                        } else {
+                            throw new Error(`Failed to fetch user data. HTTP response code: ${res.status}`);
+                        }
                     }
                 } catch (err) {
                     console.error(err);
-                    alert('Failed to fetch user data');
+                    setErr(`${err} Sorry, you have been logged out.`);
                     logout();
+                } finally {
+                    setLoding(false);
                 }
-
             }
         };
         fetchUser();
@@ -61,7 +68,7 @@ export default function AuthProvider({ children }) {
         };
         if (data.authtoken) {
             sessionStorage.setItem('auth-token', data.authtoken);
-            setUser(data.user);
+            setUser({...data.user, token: data.authtoken});
             navigate('/journal');
         }
     };
@@ -73,7 +80,7 @@ export default function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{isLoggedIn, user, login, logout}}>
+        <AuthContext.Provider value={{loading, user, login, logout, err}}>
             {children}
         </AuthContext.Provider>
     )
