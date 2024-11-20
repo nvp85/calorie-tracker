@@ -10,6 +10,8 @@ import NotFound from './Components/NotFound/NotFound';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import AuthProvider from './hooks/AuthProvider';
+import NewFood from './Components/NewFood/NewFood';
+import Profile from './Components/Profile/Profile';
 
 
 function App() {
@@ -23,17 +25,12 @@ function App() {
               <Route path='/search' element={<FoodSearch/>} />
               <Route path='/food/:id' element={<FoodItem/>} />
               <Route path='/journal' element={<Journal/>} />
+              <Route path='/addfood' element={<NewFood/>} />
             </Route>
             <Route path='*' element={<NotFound/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path='/signup' element={<Signup/>}/>
-            {
-            // 
-            //
-            //<Route path='/profile' element={<Profile/>} />
-            //
-            //<Route path='/add_food' element={<NewFood/>} />
-            }
+            <Route path='/profile' element={<Profile/>} />
           </Route>
         </Routes>
       </AuthProvider>

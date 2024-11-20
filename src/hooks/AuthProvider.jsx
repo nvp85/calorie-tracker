@@ -26,7 +26,6 @@ export default function AuthProvider({ children }) {
                     });
                     const data = await res.json();
                     if (res?.ok) {
-                        console.log(data);
                         setUser({...data, token: storetoken});
                     } else {
                         if (data.errors) {
