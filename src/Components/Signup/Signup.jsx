@@ -38,7 +38,7 @@ export default function Signup() {
                     placeholder="Repeat password"
                     value={formData.password2}
                 />
-                <button>Sign Up</button>
+                <button className="input-btn">Sign Up</button>
             </form>
             <p>Already have an account? <Link to={"/login"}>Sign in.</Link></p>
         </div>

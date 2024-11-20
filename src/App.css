@@ -46,7 +46,7 @@ p, li, a, div {
 .btn {
   border: 1px solid;
   padding: 0.8rem;
-  border-radius: 20px;
+  border-radius: 2rem;
   border-color: darkorange;
   font-size: 1.6rem;
 }
@@ -104,4 +104,37 @@ p, li, a, div {
 .white-container {
     width: fit-content;
 }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 50rem;
+  margin: auto;
+}
+
+.login-form > input {
+  border: 1px solid darkorange;
+  height: 4rem;
+  text-indent: 1rem;
+  font-weight: 400;
+}
+
+.login-form > input:not(:last-of-type) {
+  border-bottom: none;
+}
+
+.login-form > input:first-of-type {
+  border-radius: 6px 6px 0px 0px;
+}
+
+.login-form > input:last-of-type {
+  border-radius: 0px 0px 6px 6px;
+}
+
+.login-form > button {
+  width: auto;
+  border-radius: 0.6rem;
+  height: 4rem;
+  margin-top: 2rem;
 }

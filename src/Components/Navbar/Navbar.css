@@ -3,7 +3,7 @@ nav {
     background-color: white;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 2rem;
     height: 8rem; 
     align-self: stretch;
     position: fixed;
@@ -61,7 +61,6 @@ nav {
 
 .signup-btn {
     margin-left: 2rem;
-    margin-right: 1rem;
 }
 
 .nav-buttons {
@@ -90,4 +89,10 @@ nav {
     margin-left: 0rem;
 }
 
+}
+
+.username {
+    margin: 0rem 2rem;
+    width: fit-content;
+    color: black;
 }

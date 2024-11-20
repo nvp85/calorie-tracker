@@ -53,9 +53,9 @@ export default function Login() {
                     value={formData.password}
                     required
                 />
-                <button>Log in</button>
+                <button className="input-btn">Log in</button>
             </form>
-            <Link to={"/signup"}>Create an account</Link>
+            <p><Link to={"/signup"}>Create an account</Link></p>           
         </div>
     )
 }

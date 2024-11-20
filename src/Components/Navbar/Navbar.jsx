@@ -25,12 +25,12 @@ export default function Navbar() {
                 <ul className="nav-links">
                     <li><NavLink to={"/journal"} style={({isActive}) => isActive ? activeStyle : null}>Journal</NavLink></li>
                     <li><NavLink to={"/search"} style={({isActive}) => isActive ? activeStyle : null}>Search food</NavLink></li>
-                    <li><NavLink to={"/"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
+                    <li><NavLink to={"/addfood"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
                 </ul>
                 { auth.user 
                     ?
-                    <div className="nav-buttons">
-                        <Link to="/profile" >{username}</Link>
+                    <div>
+                        <span><Link to="/profile" className="username">Welcome, {username}</Link></span>
                         <button className="login-btn orange btn" onClick={handleLogout}>Logout</button>
                     </div>
                     :
