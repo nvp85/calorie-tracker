@@ -20,7 +20,7 @@ export default function Navbar() {
             <nav>
                 <div className="nav-logo">
                     <img src="/logo.png" />
-                    <p>CalorieTracker</p>
+                    <Link to={"/"}>CalorieTracker</Link>
                 </div>
                 <ul className="nav-links">
                     <li><NavLink to={"/journal"} style={({isActive}) => isActive ? activeStyle : null}>Journal</NavLink></li>
