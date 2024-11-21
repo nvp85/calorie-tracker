@@ -75,6 +75,11 @@ p, li, a, div {
 
 .input-btn:hover {
   background-color: orange;
+  color: white;
+}
+
+.input-btn:active {
+  background-color: darkorange;
 }
 
 .input-box { 
@@ -106,35 +111,36 @@ p, li, a, div {
 }
 }
 
-.login-form {
+.form {
   display: flex;
   flex-direction: column;
   max-width: 50rem;
   margin: auto;
 }
 
-.login-form > input {
+.form > input {
   border: 1px solid darkorange;
   height: 4rem;
-  text-indent: 1rem;
+  text-indent: 2rem;
   font-weight: 400;
 }
 
-.login-form > input:not(:last-of-type) {
+.form > input:not(:last-of-type) {
   border-bottom: none;
 }
 
-.login-form > input:first-of-type {
-  border-radius: 6px 6px 0px 0px;
+.form > input:first-of-type {
+  border-radius: 2rem 2rem 0 0;
 }
 
-.login-form > input:last-of-type {
-  border-radius: 0px 0px 6px 6px;
+.form > input:last-of-type {
+  border-radius: 0 0 2rem 2rem;
 }
 
-.login-form > button {
-  width: auto;
-  border-radius: 0.6rem;
+.form > button {
+  width: 9rem;
+  margin: auto auto;
+  border-radius: 2rem;
   height: 4rem;
   margin-top: 2rem;
 }

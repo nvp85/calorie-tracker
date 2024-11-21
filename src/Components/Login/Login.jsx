@@ -36,7 +36,7 @@ export default function Login() {
             <h1>Sign In</h1>
             {auth.err ? <p className="red-text">{auth.err}</p> : null}
             {err ? <p className="red-text">{err}</p> : null}
-            <form onSubmit={handleLogin} className="login-form">
+            <form onSubmit={handleLogin} className="form">
                 <input
                     name="email"
                     onChange={handleChange}

@@ -16,7 +16,7 @@ export default function Signup() {
     return (
         <div className="white-container">
             <h1>Create an account</h1>
-            <form onSubmit={handleSubmit} className="login-form">
+            <form onSubmit={handleSubmit} className="form">
                 <input
                     name="email"
                     onChange={handleChange}
