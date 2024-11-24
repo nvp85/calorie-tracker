@@ -88,6 +88,7 @@ p, li, a, div {
   border: solid 1px darkorange;
   font-size: 1.6rem;
   padding: 0.5rem;
+  text-indent: 1rem;
 }
 
 .circle-icon {
@@ -123,6 +124,7 @@ p, li, a, div {
   height: 4rem;
   text-indent: 2rem;
   font-weight: 400;
+  font-size: 1.6rem;
 }
 
 .form > input:not(:last-of-type) {
