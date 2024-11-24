@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./FoodItem.css";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import { useAuth } from "../../hooks/AuthProvider";
 
 
 export default function FoodItem() {
@@ -14,13 +15,21 @@ export default function FoodItem() {
     const [fetchErr, setFetchErr] = contextData.error;
     const [isLoading, setIsLoading] = contextData.loading;
 
+    const auth = useAuth();
+
     const [amount, setAmount] = useState(0);
     const [errMsg, setErrMsg] = useState(null);
 
     useEffect(() => {
         async function getItem() {
             try {
-                const res = await fetch(`/api/food/${params.id}`);
+                const res = await fetch(`/api/food/${params.id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authentication": auth.user.token,
+                    }
+                });
                 if (!res?.ok) {
                     throw new Error(`HTTP response code: ${res.status}`);
                 }
@@ -42,22 +51,24 @@ export default function FoodItem() {
     };
 
     async function logFood () {
-        const userId = "1"; // hardcoded for now
         const cur_date = new Date().toJSON().slice(0,10);
         try {
             if (!isValid(amount)) {
                 alert("Please, enter a number of grams");
                 return
             };
-            const newRecord = {
-                userId: userId, 
+            const newRecord = { 
                 foodId: item.id, 
                 amount: Number(amount),
                 date: cur_date,
             };
-            const res = await fetch(`/api/users/${userId}/food_records`, {
+            const res = await fetch(`/api/food_records`, {
                 method: "POST",
-                body: JSON.stringify(newRecord)
+                body: JSON.stringify(newRecord),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authentication": auth.user.token,
+                }
             });
             if (!res?.ok) {
                 throw new Error(`HTTP response code: ${res.status}`);

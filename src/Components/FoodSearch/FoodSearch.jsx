@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import "./FoodSearch.css"
 import { Link } from "react-router-dom";
 import { LuPlus } from "react-icons/lu";
+import { useAuth } from "../../hooks/AuthProvider";
 
 
 export default function FoodSearch() {
     const [query, setQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [message, setMessage] = useState('');
+    const auth = useAuth();
 
     async function search(e) {
         e.preventDefault();
@@ -18,11 +20,20 @@ export default function FoodSearch() {
         setSearchResults([]);
         setMessage("Searching...");
         try {
-            const res = await fetch(`api/food?query=${encodeURIComponent(query)}`);
-            if (!res?.ok) {
-                throw new Error(`HTTP response code: ${res.status}`);
-            }
+            const res = await fetch(`api/food?query=${encodeURIComponent(query)}`, {
+                method: "GET",
+                headers: auth.user ? {
+                    "authentication": auth.user.token,
+                } : {}
+            });
             const data = await res.json();
+            if (!res?.ok) {
+                if (data.errors) {
+                    throw new Error(data.errors.reduce((msg, err) => msg + "\n" + err));
+                } else {
+                    throw new Error(`HTTP response code: ${res.status}`);
+                }
+            }
             if (data.length === 0) {
                 setMessage('Sorry, nothing was found.');
             } else {
@@ -44,6 +55,13 @@ export default function FoodSearch() {
             setMessage('Failed to perform the search. Please try again.');
         }
     };
+
+    if (auth.loading) {
+        return (
+            <div className="white-container">
+                <h2 className="gray-text">Loading user's details...</h2>
+            </div>
+    )};
 
     return (
         <div className="white-container">
