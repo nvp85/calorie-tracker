@@ -1,0 +1,50 @@
+.food-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 50rem;
+    margin: auto;
+}
+  
+.food-form > label {
+    border: 1px solid darkorange;
+    height: 4rem;
+    text-indent: 2rem;
+    font-weight: 400;
+    text-align: left;
+    font-size: 1.6rem;
+}
+
+.food-form > label > input {
+    border: none;
+    height: 4rem;
+    text-indent: 0.5rem;
+    font-weight: 400;
+    text-align: left;
+    background-color: transparent;
+    font-size: 1.6rem;
+    width: 72%;
+}
+
+.food-form > label > input:focus {
+    outline: none;
+}
+  
+.food-form > label:not(:last-of-type) {
+    border-bottom: none;
+}
+  
+.food-form > label:first-of-type {
+    border-radius: 2rem 2rem 0 0;
+}
+  
+.food-form > label:last-of-type {
+    border-radius: 0 0 2rem 2rem;
+}
+  
+.food-form > button {
+    width: 9rem;
+    margin: auto auto;
+    border-radius: 2rem;
+    height: 4rem;
+    margin-top: 2rem;
+}

@@ -13,8 +13,11 @@ const serializer = RestSerializer.extend({
 function verifyToken(token, schema) {
     const decoded = jwtDecode(token, 'app-secret');
     const user = schema.users.find(decoded.id);
-    if (!user || decoded.exp < Math.floor(Date.now()/1000)) {
+    if (!user) {
         throw new Error('Inavalid credentials.');
+    }
+    if (decoded.exp < Math.floor(Date.now()/1000)) {
+        throw new Error('The session has ended.');
     };
     return user;
 };
@@ -133,7 +136,7 @@ export function makeServer() {
                     });
                 } catch (err) {
                     console.error(err);
-                    return new Response(401, {}, {errors: ['Invalid credentials.']});
+                    return new Response(401, {}, {errors: [err.message]});
                 }
             });
             // should return public food and current user's food if the user is logged in
@@ -141,22 +144,34 @@ export function makeServer() {
                 let q = request.queryParams.query.trim().toLowerCase();
                 let user = null;
                 //return new Response(400, {}, {error: "Error fetching data"}); 
+                console.log("user: ", request.requestHeaders.authentication);  
                 if (request.requestHeaders.authentication) {
                     try {
                         const token = request.requestHeaders.authentication;
                         user = verifyToken(token, schema);
+                                
                     } catch (err) {
                         console.error(err);
                         return new Response(401, {}, {errors: ['Inavalid credentials.']})
                     };
                 }
-                return schema.foods.where(food => ((food.addedBy === null || (user && food.addedBy == user.id)) && food.name.toLowerCase().includes(q)));
+                
+                return schema.foods.where(food => {
+                    ((food.addedBy === null || (user && food.addedBy == user.id)) && food.name.toLowerCase().includes(q))
+                    if (food.name.toLowerCase().includes(q)) {
+                        if ((user && food.addedById == user.id) || food.addedById === null) {
+                            
+                            return true;
+                        };
+                    }
+                    return false;
+                });
             });
             // returns food details if it's public or belongs to the curr user
             this.get("/food/:id", (schema, request) => {
                 //console.log(request);
                 const food = schema.foods.find(request.params.id); 
-                if (request.requestHeaders.authentication && food.addedById) {
+                if (request.requestHeaders.authentication && food?.addedById) {
                     let user;
                     try {
                         const token = request.requestHeaders.authentication;
@@ -170,6 +185,20 @@ export function makeServer() {
                     };
                 }
                 return food;
+            });
+            // adds a new private food item
+            this.post("/food", (schema, request) => {
+                //return new Response(400, {}, {error: "Error fetching data"}); 
+                const attrs = JSON.parse(request.requestBody);
+                let user;
+                try {
+                    const token = request.requestHeaders.authentication;
+                    user = verifyToken(token, schema);
+                } catch (err) {
+                    console.error(err);
+                    return new Response(401, {}, {errors: [err.message]})
+                };
+                return schema.foods.create({...attrs, addedById: user.id});
             });
             // returns current user's records.
             this.get("/food_records/:date", (schema, request) => {
