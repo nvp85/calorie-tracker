@@ -11,6 +11,8 @@
 .start-btn {
     margin-top: 3rem;
     width: 20rem;
+    text-decoration: none;
+    color: black;
 }
 
 .start-btn:hover {
