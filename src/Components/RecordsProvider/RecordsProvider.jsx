@@ -11,7 +11,6 @@ export default function RecordsProvider() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        console.log('rendered');
         async function getData() {
             try {
                 setIsLoading(true);
@@ -38,11 +37,9 @@ export default function RecordsProvider() {
                 setIsLoading(false);
             }
         };
-        
         if (auth.user) {
             getData();
         }
-        console.log(auth.user);
     }, [auth.user]);
 
     return <Outlet context={{records: [records, setRecords], error: [errMsg, setErrMsg], loading: [isLoading, setIsLoading]}} />;

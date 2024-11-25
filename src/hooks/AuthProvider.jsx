@@ -11,7 +11,6 @@ export default function AuthProvider({ children }) {
     const navigate = useNavigate();
     
     useEffect(() => {
-        console.log('mounted');
         async function fetchUser() {
             const storetoken = sessionStorage.getItem('auth-token'); 
             if (storetoken) {
