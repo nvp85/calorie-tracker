@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Popup from "../PopUp/PopUp";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { useAuth } from "../../hooks/AuthProvider";
+import { isValidNum } from "../../utils";
 
 
 export default function Journal() {
@@ -52,14 +53,9 @@ export default function Journal() {
         }
     };
 
-    function isValid(amount) {
-        const pattern = /^\d+(\.\d+)?$/;
-        return typeof(amount) === "string" && pattern.test(amount) && (amount.length > 0);
-    };
-
     async function editRecord(e, id, amount) {
 
-        if (!isValid(amount)) {
+        if (!isValidNum(amount)) {
             setErrMsg("Please enter the weight in grams");
             return;
         }

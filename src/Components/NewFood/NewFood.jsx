@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import './NewFood.css';
+import { isValidNum } from "../../utils";
 
 
 export default function NewFood() {
@@ -23,10 +24,6 @@ export default function NewFood() {
         setFormData(prev => ({...prev, [name]: value}));
     };
 
-    function isValid(num) {
-        const pattern = /^\d+(\.\d+)?$/;
-        return typeof(num) === "string" && pattern.test(num) && (num.length > 0);
-    };
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -38,7 +35,7 @@ export default function NewFood() {
             setFormErrors(prev => [...prev, "Food name must contain at least 3 characters."]);
         };
         for (const field in formData) {
-            if (!isValid(formData[field]) && !(field === "name") && !(field === "serving")) {
+            if (!isValidNum(formData[field]) && !(field === "name") && !(field === "serving")) {
                 setFormErrors(prev => [...prev, `Please, enter a valid amount in grams into the field "${field}".`])
             };
         };

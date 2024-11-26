@@ -4,6 +4,7 @@ import "./FoodItem.css";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { useAuth } from "../../hooks/AuthProvider";
+import { isValidNum } from "../../utils";
 
 
 export default function FoodItem() {
@@ -45,15 +46,10 @@ export default function FoodItem() {
 
     let navigate = useNavigate();
 
-    function isValid(amount) {
-        const pattern = /^\d+(\.\d+)?$/;
-        return typeof(amount) === "string" && pattern.test(amount) && (amount.length > 0);
-    };
-
     async function logFood () {
         const cur_date = new Date().toJSON().slice(0,10);
         try {
-            if (!isValid(amount)) {
+            if (!isValidNum(amount)) {
                 alert("Please, enter a number of grams");
                 return
             };
