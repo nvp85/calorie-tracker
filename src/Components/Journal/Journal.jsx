@@ -3,7 +3,7 @@ import { json, useOutletContext } from "react-router-dom";
 import "./Journal.css";
 import { LuPlus, LuMinus, LuPencil, LuTrash2 } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import Popup from "../PopUp/PopUp";
+import Popup from "../Popup/Popup";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { useAuth } from "../../hooks/AuthProvider";
 import { isValidNum } from "../../utils";
