@@ -77,8 +77,37 @@ export default function AuthProvider({ children }) {
         navigate('/login');
     };
 
+    async function register(newUser) {
+        try {
+            const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newUser),
+            });
+            const data = await res.json();
+            if (!res?.ok) {
+                if (data.errors)  {
+                    throw new Error(data.errors.reduce((msg, err) => msg + " " + err));
+                } else {
+                    throw new Error(`HTTP response code: ${res.status}`);
+                }
+            }
+            if (data.authtoken) {
+                sessionStorage.setItem('auth-token', data.authtoken);
+                setUser({...data.user, token: data.authtoken});
+                //navigate('/profile');
+                return {success: true, }
+            }
+        } catch (err) {
+            console.error(err);
+            return {success: false, error: err.message};
+        };
+    };
+
     return (
-        <AuthContext.Provider value={{loading, user, login, logout, err}}>
+        <AuthContext.Provider value={{loading, user, login, logout, register, err}}>
             {children}
         </AuthContext.Provider>
     )

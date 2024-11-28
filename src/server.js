@@ -139,6 +139,24 @@ export function makeServer() {
                     return new Response(401, {}, {errors: [err.message]});
                 }
             });
+            // creates a user and logged it in
+            this.post('/auth/register', (schema, request) => {
+                const attr = JSON.parse(request.requestBody);
+                const user = schema.users.create(attr);
+                const token = sign({
+                    exp: Math.floor(Date.now()/1000) + 60*60,
+                    id: user.id
+                }, 'app-secret'); //replace the app-secret with an actual secret; default alg is HMAC SHA256 
+                return new Response(201, {}, {
+                    authtoken: token,
+                    user: {
+                        id: user.id,
+                        name: user.username,
+                        email: user.email,
+                        budget: user.budget
+                    }
+                });
+            });
             // should return public food and current user's food if the user is logged in
             this.get("/food", (schema, request) => { 
                 let q = request.queryParams.query.trim().toLowerCase();
