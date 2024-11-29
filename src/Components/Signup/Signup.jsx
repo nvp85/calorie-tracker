@@ -13,22 +13,24 @@ export default function Signup() {
     async function handleSubmit(e) {
         e.preventDefault();
         setFormErr([]);
+        const errors = [];
         if (!new RegExp(/\S+@\S+\.\S+/).test(formData.email)) {
-            setFormErr(prev => [...prev, "Please enter a valid email address."]);
+            errors.push( "Please enter a valid email address.");
         };
         if (!formData.email || !formData.password) {
-            setFormErr(prev => [...prev, "Please enter a valid email address and password."]);
+            errors.push("Please enter a valid email address and password.");
         };
         if (formData.password.length < 8) {
-            setFormErr(prev => [...prev, "Password should be at least 8 characters long."]);
+            errors.push("Password should be at least 8 characters long.");
         };
         if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}":;'<>?,./]).*$/.test(formData.password)) {
-            setFormErr(prev => [...prev, "Password should include at least one uppercase and one lowercase letter, at least one number, and at least one special character."]);
+            errors.push("Password should include at least one uppercase and one lowercase letter, at least one number, and at least one special character.");
         };
         if (/^(?=.*\s).*$/.test(formData.password)) {
-            setFormErr(prev => [...prev, "Password should not contain whitespaces."]);
+            errors.push("Password should not contain whitespaces.");
         };
-        if (formErr.length > 0) {
+        if (errors.length > 0) {
+            setFormErr(errors);
             return;
         };
         const newUser = {
@@ -42,14 +44,14 @@ export default function Signup() {
             if (!status.success) {
                 setFormErr(["Sorry, an error has accured.", status.error]);
             } else {
-                setProcessing(false);
                 navigate("/profile");
             };
         } catch (err) {
             console.error(err);
             setFormErr(["Sorry, an error has accured. Failed to create an account."]);
+        } finally {
             setProcessing(false);
-        };
+        }
     };
 
     function handleChange(e) {
@@ -62,7 +64,7 @@ export default function Signup() {
             <h1>Create an account</h1>
             { processing && <p className="gray-text">Creating an account...</p> }
             {
-                formErr.map(err => <p className="red-text">{err}</p>)
+                formErr.map(err => <p className="red-text" key={err}>{err}</p>)
             }
             <form onSubmit={handleSubmit} className="form">
                 <input

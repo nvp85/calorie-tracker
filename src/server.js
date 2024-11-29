@@ -142,6 +142,10 @@ export function makeServer() {
             // creates a user and logged it in
             this.post('/auth/register', (schema, request) => {
                 const attr = JSON.parse(request.requestBody);
+                const double = schema.users.findBy({email: attr.email});
+                if (double) {
+                    return new Response(409, {}, {errors: ["Failed to create an account: an account with this email address already exists."]});
+                };
                 const user = schema.users.create(attr);
                 const token = sign({
                     exp: Math.floor(Date.now()/1000) + 60*60,
