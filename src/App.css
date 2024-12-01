@@ -139,7 +139,7 @@ p, li, a, div {
   border-radius: 0 0 2rem 2rem;
 }
 
-.form > button {
+.form > button:last-of-type {
   width: 9rem;
   margin: auto auto;
   border-radius: 2rem;

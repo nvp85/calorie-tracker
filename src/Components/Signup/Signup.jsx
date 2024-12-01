@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
+import { LuEye, LuEyeOff } from "react-icons/lu";
+import "./Signup.css";
+
 
 export default function Signup() {
     const [formData, setFormData] = useState({email: "", username: "", password: ""});
     const [formErr, setFormErr] = useState([]);
     const [processing, setProcessing] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const auth = useAuth();
 
     const navigate = useNavigate();
@@ -59,6 +63,10 @@ export default function Signup() {
         setFormData(prev => ({...prev, [name]: value}));
     };
 
+    function togglePassword() {
+        setShowPassword(prev => !prev);
+    };
+
     return (
         <div className="white-container">
             <h1>Create an account</h1>
@@ -66,7 +74,7 @@ export default function Signup() {
             {
                 formErr.map(err => <p className="red-text" key={err}>{err}</p>)
             }
-            <form onSubmit={handleSubmit} className="form">
+            <form onSubmit={handleSubmit} className="form position-relative">
                 <input
                     name="username"
                     onChange={handleChange}
@@ -74,6 +82,7 @@ export default function Signup() {
                     placeholder="Username"
                     value={formData.username}
                     required
+                    pattern="[A-Za-z0-9]+"
                 />
                 <input
                     name="email"
@@ -86,11 +95,12 @@ export default function Signup() {
                 <input
                     name="password"
                     onChange={handleChange}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={formData.password}
                     required
                 />
+                <button type="button" className="eye-btn" onClick={togglePassword}>{showPassword ? <LuEyeOff/> : <LuEye/>}</button>
                 <button className="input-btn" disabled={processing}>Sign Up</button>
             </form>
             <p>Already have an account? <Link to={"/login"}>Sign in.</Link></p>
