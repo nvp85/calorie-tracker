@@ -22,11 +22,13 @@ export default function Navbar() {
                     <img src="/logo.png" />
                     <Link to={"/"}>CalorieTracker</Link>
                 </div>
-                <ul className="nav-links">
-                    <li><NavLink to={"/journal"} style={({isActive}) => isActive ? activeStyle : null}>Journal</NavLink></li>
-                    <li><NavLink to={"/search"} style={({isActive}) => isActive ? activeStyle : null}>Search food</NavLink></li>
-                    <li><NavLink to={"/addfood"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
-                </ul>
+                { (auth.user!=null) &&
+                    <ul className="nav-links">
+                        <li><NavLink to={"/journal"} style={({isActive}) => isActive ? activeStyle : null}>Journal</NavLink></li>
+                        <li><NavLink to={"/search"} style={({isActive}) => isActive ? activeStyle : null}>Search food</NavLink></li>
+                        <li><NavLink to={"/addfood"} style={({isActive}) => isActive ? activeStyle : null}>Add food</NavLink></li>
+                    </ul>
+                }
                 { auth.user 
                     ?
                     <div>
