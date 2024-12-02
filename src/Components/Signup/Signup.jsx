@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import { LuEye, LuEyeOff } from "react-icons/lu";
-import "./Signup.css";
 
 
 export default function Signup() {
@@ -101,7 +100,7 @@ export default function Signup() {
                     required
                 />
                 <button type="button" className="eye-btn" onClick={togglePassword}>{showPassword ? <LuEyeOff/> : <LuEye/>}</button>
-                <button className="input-btn" disabled={processing}>Sign Up</button>
+                <button type="submit" className="input-btn" disabled={processing}>Sign Up</button>
             </form>
             <p>Already have an account? <Link to={"/login"}>Sign in.</Link></p>
         </div>

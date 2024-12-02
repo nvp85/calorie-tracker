@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
+import { LuEye, LuEyeOff } from "react-icons/lu";
+
 
 export default function Login() {
     const [formData, setFormData] = useState({email: "user1@example.com", password: "123"});
+    const [showPassword, setShowPassword] = useState(false);
     const auth = useAuth();
 
     const [err, setErr] = useState();
@@ -31,12 +34,16 @@ export default function Login() {
         setFormData(prev => ({...prev, [name]: value}));
     };
 
+    function togglePassword() {
+        setShowPassword(prev => !prev);
+    };
+
     return (
         <div className="white-container">
             <h1>Sign In</h1>
             {auth.err ? <p className="red-text">{auth.err}</p> : null}
             {err ? <p className="red-text">{err}</p> : null}
-            <form onSubmit={handleLogin} className="form">
+            <form onSubmit={handleLogin} className="form position-relative">
                 <input
                     name="email"
                     onChange={handleChange}
@@ -48,12 +55,13 @@ export default function Login() {
                 <input
                     name="password"
                     onChange={handleChange}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={formData.password}
                     required
                 />
-                <button className="input-btn">Log in</button>
+                <button type="button" className="eye-btn" onClick={togglePassword}>{showPassword ? <LuEyeOff/> : <LuEye/>}</button>
+                <button type="submit" className="input-btn">Log in</button>
             </form>
             <p><Link to={"/signup"}>Create an account</Link></p>           
         </div>
