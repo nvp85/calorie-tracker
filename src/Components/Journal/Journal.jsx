@@ -150,7 +150,7 @@ export default function Journal() {
                     <h2>Do you want to delete this record?</h2>
                     <p>{curRecord.food_name}, {curRecord.amount} g</p>
                     {errMsg && <p className="red-text">{errMsg}</p>}
-                    <button onClick={(e) => deleteRecord(e, curRecord.id)} disabled={isFetching}>Delete</button>
+                    <button onClick={(e) => deleteRecord(e, curRecord.id)} disabled={isFetching} className="btn delete-btn">Delete</button>
                 </Popup>
             }
             {isEditOpen &&
@@ -158,9 +158,9 @@ export default function Journal() {
                     <h2>Edit the record</h2>
                     <p>{curRecord.food_name}, {curRecord.amount} g</p>
                     <p>Enter a new amount (weight in grams):</p>
-                    <input name="newAmount" type="number" onChange={(e) => setNewAmount(e.target.value)}/>
+                    <input name="newAmount" type="number" onChange={(e) => setNewAmount(e.target.value)} className="input-box"/>
                     {errMsg && <p className="red-text">{errMsg}</p>}
-                    <button onClick={(e) => editRecord(e, curRecord.id, newAmount)} disabled={isFetching}>Save</button>
+                    <button onClick={(e) => editRecord(e, curRecord.id, newAmount)} disabled={isFetching} className="input-btn">Save</button>
                 </Popup>
             }
         </div>

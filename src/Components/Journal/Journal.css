@@ -34,3 +34,18 @@
 .food-select-link {
     margin-left: 2rem;
 }
+
+.delete-btn {
+    margin-top: 1rem;
+    background-color: white;
+}
+
+.delete-btn:hover {
+    background-color: red;
+    color: white;
+}
+
+.delete-btn:disabled {
+    background-color: lightgray;
+    color: gray;
+}

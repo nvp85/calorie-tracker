@@ -83,6 +83,7 @@ p, li, a, div {
 }
 
 .input-box { 
+  margin: 1rem 0;
   height: 3.6rem;
   border-radius: 20px 0 0 20px;
   border: solid 1px darkorange;
