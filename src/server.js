@@ -171,7 +171,6 @@ export function makeServer() {
                     try {
                         const token = request.requestHeaders.authentication;
                         user = verifyToken(token, schema);
-                                
                     } catch (err) {
                         console.error(err);
                         return new Response(401, {}, {errors: ['Inavalid credentials.']})
@@ -202,7 +201,7 @@ export function makeServer() {
                         console.error(err);
                         return new Response(401, {}, {errors: ['Inavalid credentials.']})
                     };
-                    if (food.addedById !== user.id) {
+                    if (food.addedById != user.id) {
                         return new Response(403, {}, {errors: ['Access denied.']})
                     };
                 }
