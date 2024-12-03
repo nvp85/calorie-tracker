@@ -31,18 +31,23 @@ export default function FoodItem() {
                         "authentication": auth.user.token,
                     }
                 });
+                const data = await res.json();
                 if (!res?.ok) {
+                    if (data.errors) {
+                        throw new Error(data.errors.reduce((msg, err) => msg + " " + err));
+                    }
                     throw new Error(`HTTP response code: ${res.status}`);
                 }
-                const data = await res.json();
                 setItem(data);
             } catch (err) {
                 console.error("Error fetching food item data:", err);
                 setErrMsg(`Failed fetching food item data. ${err}`);
             }
         };
-        getItem();
-    }, [params.id]);
+        if (auth.user) {
+            getItem();
+        }
+    }, [params.id, auth.user]);
 
     let navigate = useNavigate();
 
@@ -77,6 +82,14 @@ export default function FoodItem() {
             setErrMsg(`Failed to log the food item. ${err}`);
         };
     };
+
+    if (auth.loading) {
+        return (
+            <div className="white-container">
+                <h2 className="gray-text">Loading the user's data...</h2>
+            </div>
+        )
+    }
 
     if (errMsg) {
         return (
