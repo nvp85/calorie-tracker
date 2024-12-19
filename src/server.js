@@ -161,6 +161,30 @@ export function makeServer() {
                     }
                 });
             });
+            // modifies user's profile
+            this.patch("/users", (schema, request) => {
+                const attr = JSON.parse(request.requestBody);
+                const token = request.requestHeaders.authentication;
+                let user;
+                try {
+                    user = verifyToken(token, schema);
+                    if ("name" in attr) {
+                        return user.update({username: attr.name})
+                    };
+                    if ("budget" in attr) {
+                        return user.update({budget: attr.budget})
+                    };
+                    if ("oldPassword" in attr && "newPassword" in attr) {
+                        if (attr.oldPassword !== user.password) {
+                            throw new Error('Inavalid credentials.');
+                        };
+                        return user.update({password: attr.newPassword})
+                    };
+                } catch (err) {
+                    console.error(err);
+                    return new Response(401, {}, {errors: [err.message]});
+                }
+            });
             // should return public food and current user's food if the user is logged in
             this.get("/food", (schema, request) => { 
                 let q = request.queryParams.query.trim().toLowerCase();
