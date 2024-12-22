@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import Popup from "../Popup/Popup";
+import { LuPencil} from "react-icons/lu";
+import "./Profile.css"
 
 
 export default function Profile() {
@@ -60,9 +62,9 @@ export default function Profile() {
     return (
         <div className="white-container">
             <h1>User's profile</h1>
-            <p>Username: {auth.user.name} <button onClick={()=>setIsNameModalOpen(true)}>edit</button></p>
-            <p>Calories budget: {auth.user.budget} <button onClick={()=>setIsBudgetModalOpen(true)}>edit</button></p>
-            <p><button onClick={()=>setIsPasswordModalOpen(true)}>Change Password</button></p>
+            <p>Username: {auth.user.name} <button onClick={()=>setIsNameModalOpen(true)} className="profile-icon"><LuPencil/></button></p>
+            <p>Calories budget: {auth.user.budget} <button onClick={()=>setIsBudgetModalOpen(true)} className="profile-icon"><LuPencil/></button></p>
+            <p><button onClick={()=>setIsPasswordModalOpen(true)} className="input-btn password-btn">Change Password</button></p>
             {isNameModalOpen && 
                 <Popup onClose={() => setIsNameModalOpen(false)}>
                     <h1>Edit the username</h1>
@@ -82,9 +84,11 @@ export default function Profile() {
             {isPasswordModalOpen && 
                 <Popup onClose={() => setIsPasswordModalOpen(false)}>
                     <h1>Set a new password</h1>
+                    <div className="form">
                     <input type="password" placeholder="Old password" name="oldPassword" className="" onChange={(e) => setOldPassword(e.target.value)}/>
                     <input type="password" placeholder="New password" name="newPassword" className="" onChange={(e) => setNewPassword(e.target.value)}/>
-                    <button onClick={() => editProfile({newPassword: newPassword, oldPassword: oldPassword})} className="btn" disabled={isProcessing}>Save</button>
+                    <button onClick={() => editProfile({newPassword: newPassword, oldPassword: oldPassword})} className="input-btn" disabled={isProcessing}>Save</button>
+                    </div>
                 </Popup>
             }
         </div>

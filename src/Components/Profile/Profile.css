@@ -1,0 +1,19 @@
+.profile-icon {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    color:#016d12;
+}
+
+.profile-icon:hover {
+    background-color: lightgrey;
+    border-radius: 50%;
+}
+
+.password-btn {
+    width: 19rem;
+    margin: auto auto;
+    border-radius: 2rem;
+    height: 4rem;
+    margin-top: 2rem;
+}
