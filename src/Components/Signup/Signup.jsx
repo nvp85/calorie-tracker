@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import { LuEye, LuEyeOff } from "react-icons/lu";
+import { isPasswordValid } from "../../utils";
 
 
 export default function Signup() {
@@ -16,22 +17,15 @@ export default function Signup() {
     async function handleSubmit(e) {
         e.preventDefault();
         setFormErr([]);
-        const errors = [];
+        let errors = [];
         if (!new RegExp(/\S+@\S+\.\S+/).test(formData.email)) {
             errors.push( "Please enter a valid email address.");
         };
         if (!formData.email || !formData.password) {
             errors.push("Please enter a valid email address and password.");
         };
-        if (formData.password.length < 8) {
-            errors.push("Password should be at least 8 characters long.");
-        };
-        if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}":;'<>?,./]).*$/.test(formData.password)) {
-            errors.push("Password should include at least one uppercase and one lowercase letter, at least one number, and at least one special character.");
-        };
-        if (/^(?=.*\s).*$/.test(formData.password)) {
-            errors.push("Password should not contain whitespaces.");
-        };
+        let pass_check = isPasswordValid(formData.password); // returns object {ok: true/false, errors: []}
+        errors.push(...pass_check.errors);
         if (errors.length > 0) {
             setFormErr(errors);
             return;
@@ -103,6 +97,15 @@ export default function Signup() {
                 <button type="submit" className="input-btn" disabled={processing}>Sign Up</button>
             </form>
             <p>Already have an account? <Link to={"/login"}>Sign in.</Link></p>
+            <p style={{textAlign: "left", color: "gray"}}>
+                Password must:
+                <ul>
+                    <li>be at least 8 characters long</li>
+                    <li>include uppercase and lowercase letters</li>
+                    <li>include at least one number and at least one special character</li>
+                    <li>must not contain spaces</li>
+                </ul>
+            </p>
         </div>
     )
 }
