@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null); // user object {id, name, email, budget, token}
-    const [loading, setLoding] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [err, setErr] = useState(""); 
 
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function AuthProvider({ children }) {
         async function fetchUser() {
             const storetoken = sessionStorage.getItem('auth-token'); 
             if (storetoken) {
-                setLoding(true);
+                setLoading(true);
                 try {
                     const res = await fetch('/api/auth/user', {
                         method: 'GET',
@@ -38,7 +38,7 @@ export default function AuthProvider({ children }) {
                     setErr(`${err} Sorry, you have been logged out.`);
                     logout();
                 } finally {
-                    setLoding(false);
+                    setLoading(false);
                 }
             }
         };
