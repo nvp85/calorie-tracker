@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./FoodSearch.css"
 import { Link } from "react-router-dom";
 import { LuPlus } from "react-icons/lu";
@@ -9,7 +9,20 @@ export default function FoodSearch() {
     const [query, setQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [message, setMessage] = useState('');
+    const [selectedFilter, setSelectedFilter] = useState("all");
+    const filteredResults = useMemo(() => {
+        if (selectedFilter === "private") {
+            return searchResults.filter(item => item.addedBy);
+        } else if (selectedFilter === "public") {
+            return searchResults.filter(item => !item.addedBy)
+        };
+        return searchResults;
+    }, [searchResults, selectedFilter]);
     const auth = useAuth();
+
+    function handleFilter(e) {
+        setSelectedFilter(e.target.value);
+    }
 
     async function search(e) {
         e.preventDefault();
@@ -38,17 +51,7 @@ export default function FoodSearch() {
                 setMessage('Sorry, nothing was found.');
             } else {
                 setMessage('');
-                setSearchResults(data.map(item => {
-                    return (
-                        <div className="search-food-item" key={item.id} >
-                            <div>
-                                <p><span style={{fontWeight: "bold"}}>{item.name}</span> {!item.addedBy ? "(public item)" : ""}</p>
-                                <p className="gray-text">Calories, per 100g: {item.calories}</p>
-                            </div>
-                            <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>
-                        </div>
-                    )
-                }));
+                setSearchResults(data);
             }
         } catch (err) {
             console.error('Fail to fetch data.', err);
@@ -70,9 +73,28 @@ export default function FoodSearch() {
                 <input type="text" className="input-box" name="query" value={query} onChange={(e)=>setQuery(e.target.value)}/>
                 <button type="submit" className="input-btn ">search</button>
             </form>
+            <select value={selectedFilter} onChange={handleFilter} className="dropdown">
+                <option value="all">All food items</option>
+                <option value="private">My food items</option>
+                <option value="public">Public food items</option>
+            </select>
             {message && <p className="message">{message}</p>}
             <div className="search-results">
-                {searchResults.length>0 && searchResults}
+                {filteredResults.length>0 
+                ? 
+                filteredResults.map(item => {
+                    return (
+                        <div className="search-food-item" key={item.id} >
+                            <div>
+                                <p><span style={{fontWeight: "bold"}}>{item.name}</span> {!item.addedBy ? "(public item)" : ""}</p>
+                                <p className="gray-text">Calories, per 100g: {item.calories}</p>
+                            </div>
+                            <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>
+                        </div>
+                    )
+                })
+                : 
+                <p className="gray-text">No items.</p>}
             </div>
         </div>
     )
