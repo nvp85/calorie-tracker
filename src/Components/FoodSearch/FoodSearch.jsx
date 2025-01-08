@@ -40,9 +40,9 @@ export default function FoodSearch() {
                 setMessage('');
                 setSearchResults(data.map(item => {
                     return (
-                        <div className="search-food-item" key={item.id}>
+                        <div className="search-food-item" key={item.id} >
                             <div>
-                                <p>{item.name}</p>
+                                <p><span style={{fontWeight: "bold"}}>{item.name}</span> {!item.addedBy ? "(public item)" : ""}</p>
                                 <p className="gray-text">Calories, per 100g: {item.calories}</p>
                             </div>
                             <Link to={`/food/${item.id}`} className="food-select-btn"><LuPlus className="circle-icon"/></Link>

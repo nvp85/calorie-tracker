@@ -17,7 +17,7 @@ function verifyToken(token, schema) {
         throw new Error('Inavalid credentials.');
     }
     if (decoded.exp < Math.floor(Date.now()/1000)) {
-        throw new Error('The session has ended.');
+        throw new Error('The access token has expired, please sign in again.');
     };
     return user;
 };
