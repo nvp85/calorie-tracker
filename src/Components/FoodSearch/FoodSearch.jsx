@@ -20,10 +20,6 @@ export default function FoodSearch() {
     }, [searchResults, selectedFilter]);
     const auth = useAuth();
 
-    function handleFilter(e) {
-        setSelectedFilter(e.target.value);
-    }
-
     async function search(e) {
         e.preventDefault();
         if (query === '') {
@@ -71,14 +67,17 @@ export default function FoodSearch() {
             <h2>Search a food item by name</h2>
             <form onSubmit={search}>
                 <input type="text" className="input-box" name="query" value={query} onChange={(e)=>setQuery(e.target.value)}/>
-                <button type="submit" className="input-btn ">search</button>
+                <button type="submit" className="input-btn ">Search</button>
             </form>
-            <select value={selectedFilter} onChange={handleFilter} className="dropdown">
-                <option value="all">All food items</option>
-                <option value="private">My food items</option>
-                <option value="public">Public food items</option>
-            </select>
-            {message && <p className="message">{message}</p>}
+            <div className="filter"> 
+                <button onClick={() => setSelectedFilter("all")} style={{backgroundColor: selectedFilter==="all" && "orange" }} className="input-btn">All items</button>
+                <button onClick={() => setSelectedFilter("private")} style={{backgroundColor: selectedFilter==="private" && "orange" }} className="input-btn">My items</button>
+                <button onClick={() => setSelectedFilter("public")} style={{backgroundColor: selectedFilter==="public" && "orange" }} className="input-btn">Public items</button>
+            </div>
+            {message 
+            ? 
+            <p className="message">{message}</p> 
+            : 
             <div className="search-results">
                 {filteredResults.length>0 
                 ? 
@@ -96,6 +95,7 @@ export default function FoodSearch() {
                 : 
                 <p className="gray-text">No items.</p>}
             </div>
+            }
         </div>
     )
 };

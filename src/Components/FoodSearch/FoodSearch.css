@@ -15,3 +15,18 @@ form {
 .message {
     color: gray;
 }
+
+.filter > button:first-of-type {
+    border-radius: 5rem 0 0 5rem;
+    width: 10rem;
+}
+
+.filter > button:last-of-type {
+    border-radius: 0 5rem 5rem 0;
+    width: 10rem;
+}
+
+.filter > button {
+    border-radius: 0;
+    width: 10rem;
+}
