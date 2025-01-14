@@ -36,12 +36,15 @@ nav {
 
 .nav-links {
     display: flex;
+    gap: 2rem;
     list-style: none;
+    padding: 0;
+    position: absolute;
+    top: 1.6rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
-.nav-links > li {
-    margin-right: 2rem;
-}
 
 .nav-links a {
     text-decoration: none;
@@ -69,9 +72,10 @@ nav {
     margin-left: 4rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 nav {
     height: 6rem;
+    box-shadow: none;
 }
 
 .nav-links {
@@ -84,6 +88,8 @@ nav {
     justify-content: space-around;
     padding: 1.5rem;
     font-size: large;
+    transform: none;
+    box-shadow: 0px 2px 2px lightgray;
 }
 
 
