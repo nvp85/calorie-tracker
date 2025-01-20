@@ -24,7 +24,7 @@ export default function RecordsProvider() {
                 const data = await res.json();
                 if (!res?.ok) {
                     if (data.errors) {
-                        throw new Error(data.errors.reduce((msg, err) => msg + "\n" + err));
+                        throw new Error(data.errors.reduce((msg, err) => msg + " " + err));
                     } else {
                         throw new Error(`HTTP response code: ${res.status}`);
                     }

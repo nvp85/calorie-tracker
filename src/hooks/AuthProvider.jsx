@@ -12,34 +12,35 @@ export default function AuthProvider({ children }) {
     
     useEffect(() => {
         async function fetchUser() {
-            const storetoken = sessionStorage.getItem('auth-token'); 
-            if (storetoken) {
-                setLoading(true);
-                try {
-                    const res = await fetch('/api/auth/user', {
-                        method: 'GET',
-                        headers: {
-                            'authentication': storetoken,
-                            'Content-Type': 'application/json',
-                        }
-                    });
-                    const data = await res.json();
-                    if (res?.ok) {
-                        setUser({...data, token: storetoken});
-                    } else {
-                        if (data.errors) {
-                            throw new Error(`Failed to fetch user data. ${data.errors.reduce((errors, err) => errors + "\n" + err)}`);
-                        } else {
-                            throw new Error(`Failed to fetch user data. HTTP response code: ${res.status}`);
-                        }
+            const storetoken = sessionStorage.getItem('auth-token');
+            if (!storetoken) {
+                return;
+            }
+            setLoading(true);
+            try {
+                const res = await fetch('/api/auth/user', {
+                    method: 'GET',
+                    headers: {
+                        'authentication': storetoken,
+                        'Content-Type': 'application/json',
                     }
-                } catch (err) {
-                    console.error(err);
-                    setErr(`${err} Sorry, you have been logged out.`);
-                    logout();
-                } finally {
-                    setLoading(false);
+                });
+                const data = await res.json();
+                if (res?.ok) {
+                    setUser({...data, token: storetoken});
+                } else {
+                    if (data.errors) {
+                        throw new Error(`Failed to fetch user data. ${data.errors.reduce((errors, err) => errors + " " + err)}`);
+                    } else {
+                        throw new Error(`Failed to fetch user data. HTTP response code: ${res.status}`);
+                    }
                 }
+            } catch (err) {
+                console.error(err);
+                setErr(`${err} Sorry, you have been logged out.`);
+                logout();
+            } finally {
+                setLoading(false);
             }
         };
         fetchUser();
@@ -59,7 +60,7 @@ export default function AuthProvider({ children }) {
         const data = await res.json();
         if (!res?.ok) {
             if (data.errors)  {
-                throw new Error(data.errors.reduce((msg, err) => msg + "\n" + err));
+                throw new Error(data.errors.reduce((msg, err) => msg + " " + err));
             } else {
                 throw new Error(`HTTP response code: ${res.status}`);
             }
