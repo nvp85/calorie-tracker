@@ -9,13 +9,13 @@ export default function ProtectedRoute() {
     if (auth.loading) {
         return (
             <div className="white-container">
-                <h2 className="gray-text">Loading user's details...</h2>
+                <h2 className="gray-text">Loading user's details!</h2>
             </div>
         )
     };
 
     if (!auth.user && auth.loading) {
-        return <Navigate to="/loging" />
+        return <Navigate to="/login" />
     };
 
     return <Outlet />;

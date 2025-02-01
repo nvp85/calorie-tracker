@@ -12,6 +12,7 @@ import Signup from './Components/Signup/Signup';
 import AuthProvider from './hooks/AuthProvider';
 import NewFood from './Components/NewFood/NewFood';
 import Profile from './Components/Profile/Profile';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 
 
 function App() {
@@ -20,17 +21,21 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route element={<Layout />}>
+            {/* Public routes */}
             <Route path="/" element={<LandingPage/>} />
-            <Route element={<RecordsProvider />}>
-              <Route path='/search' element={<FoodSearch/>} />
-              <Route path='/food/:id' element={<FoodItem/>} />
-              <Route path='/journal' element={<Journal/>} />
-              <Route path='/addfood' element={<NewFood/>} />
-            </Route>
             <Route path='*' element={<NotFound/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path='/signup' element={<Signup/>}/>
-            <Route path='/profile' element={<Profile/>} />
+            {/* Protected routes */ }
+            <Route element={<ProtectedRoute/>}>
+              <Route path='/profile' element={<Profile/>} />            
+              <Route element={<RecordsProvider />}>
+                <Route path='/search' element={<FoodSearch/>} />
+                <Route path='/food/:id' element={<FoodItem/>} />
+                <Route path='/journal' element={<Journal/>} />
+                <Route path='/addfood' element={<NewFood/>} />
+              </Route>
+            </Route>
           </Route>
         </Routes>
       </AuthProvider>
