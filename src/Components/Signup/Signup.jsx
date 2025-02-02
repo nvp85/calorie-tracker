@@ -97,7 +97,7 @@ export default function Signup() {
                 <button type="submit" className="input-btn" disabled={processing}>Sign Up</button>
             </form>
             <p>Already have an account? <Link to={"/login"}>Sign in.</Link></p>
-            <p style={{textAlign: "left", color: "gray"}}>
+            <div style={{textAlign: "left", color: "gray"}}>
                 Password must:
                 <ul>
                     <li>be at least 8 characters long</li>
@@ -105,7 +105,7 @@ export default function Signup() {
                     <li>include at least one number and at least one special character</li>
                     <li>must not contain spaces</li>
                 </ul>
-            </p>
+            </div>
         </div>
     )
 }

@@ -99,7 +99,7 @@ export default function Profile() {
                     <input type="password" placeholder="New password" name="newPassword" className="" onChange={(e) => setNewPassword(e.target.value)}/>
                     <button onClick={() => editProfile({newPassword: newPassword, oldPassword: oldPassword})} className="input-btn" disabled={isProcessing}>Save</button>
                     </div>
-                    <p style={{textAlign: "left"}}>
+                    <div style={{textAlign: "left"}}>
                         Password must:
                         <ul>
                             <li>be at least 8 characters long</li>
@@ -107,7 +107,7 @@ export default function Profile() {
                             <li>include at least one number and at least one special character</li>
                             <li>must not contain spaces</li>
                         </ul>
-                    </p>
+                    </div>
                 </Popup>
             }
         </div>
