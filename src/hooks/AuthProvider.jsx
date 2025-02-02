@@ -5,18 +5,20 @@ const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null); // user object {id, name, email, budget, token}
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [err, setErr] = useState(""); 
 
     const navigate = useNavigate();
     
     useEffect(() => {
         async function fetchUser() {
+            //setLoading(true);
             const storetoken = sessionStorage.getItem('auth-token');
             if (!storetoken) {
+                setLoading(false);
                 return;
             }
-            setLoading(true);
+            
             try {
                 const res = await fetch('/api/auth/user', {
                     method: 'GET',

@@ -5,16 +5,17 @@ import { Outlet, Navigate } from "react-router-dom";
 
 export default function ProtectedRoute() {
     const auth = useAuth();
-
+    //console.log(auth.loading, auth.user);
+    
     if (auth.loading) {
         return (
             <div className="white-container">
-                <h2 className="gray-text">Loading user's details!</h2>
+                <h2 className="gray-text">Loading user's details...</h2>
             </div>
         )
     };
 
-    if (!auth.user && auth.loading) {
+    if (!auth.user) {
         return <Navigate to="/login" />
     };
 
