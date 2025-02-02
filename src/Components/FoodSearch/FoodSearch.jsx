@@ -55,12 +55,6 @@ export default function FoodSearch() {
         }
     };
 
-    if (auth.loading) {
-        return (
-            <div className="white-container">
-                <h2 className="gray-text">Loading user's details...</h2>
-            </div>
-    )};
 
     return (
         <div className="white-container">

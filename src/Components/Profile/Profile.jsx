@@ -19,14 +19,6 @@ export default function Profile() {
     const [newPassword, setNewPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
 
-    if (!auth.user || auth.loading) { // why does just auth.loading not work for this?
-        //console.log(auth.loading)
-        return (
-            <div className="white-container">
-                <h1 className="gray-text">User's profile is loading...</h1>
-            </div>
-        )
-    }
 
     async function editProfile(body) {
         

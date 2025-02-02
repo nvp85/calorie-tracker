@@ -94,14 +94,6 @@ export default function Journal() {
         setErrMsg(null);
     };
 
-    if (auth.loading) {
-        return (
-            <div className="white-container">
-                <h2 className="gray-text">Loading user's details...</h2>
-            </div>
-        )
-    };
-
     if (isLoading) {
         return (
             <div className="white-container">

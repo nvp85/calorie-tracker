@@ -83,14 +83,6 @@ export default function FoodItem() {
         };
     };
 
-    if (auth.loading) {
-        return (
-            <div className="white-container">
-                <h2 className="gray-text">Loading the user's data...</h2>
-            </div>
-        )
-    }
-
     if (errMsg) {
         return (
             <ErrorPage>{errMsg}</ErrorPage>
